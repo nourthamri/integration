@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="gui.categorie.GestionCategorieController" prefWidth="600" prefHeight="400">
+    <children>
+        <Label text="Gestion des Catégories" layoutX="200" layoutY="20" style="-fx-font-size: 20px;" />
+
+        <!-- Remplacer TableView par ListView -->
+        <ListView fx:id="listCategorie" layoutX="50" layoutY="60" prefWidth="500" prefHeight="200" />
+
+        <TextField fx:id="nomField" layoutX="50" layoutY="280" promptText="Nom de la catégorie" prefWidth="500" />
+
+        <HBox layoutX="150" layoutY="330" spacing="10">
+            <Button text="Ajouter" fx:id="btnAjouter"/>
+            <Button text="Modifier" fx:id="btnModifier"/>
+            <Button text="Supprimer" fx:id="btnSupprimer"/>
+        </HBox>
+    </children>
+</AnchorPane>

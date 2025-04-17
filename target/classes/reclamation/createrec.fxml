@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.reclamation.Createrec">
+    <children>
+        <Label layoutX="168.0" layoutY="40.0" prefHeight="26.0" prefWidth="233.0" text="ADD RECLAMATION" textFill="#813939" />
+
+        <TextField fx:id="titre" layoutX="210.0" layoutY="106.0" promptText="titre" />
+        <TextField fx:id="desc" layoutX="210.0" layoutY="159.0" promptText="description" />
+        <DatePicker fx:id="date" layoutX="210.0" layoutY="214.0" promptText="date" />
+
+        <!-- ComboBox déplacé plus bas pour éviter le chevauchement -->
+        <ComboBox fx:id="categorieCombo" layoutX="210.0" layoutY="260.0" prefWidth="200" />
+
+        <!-- Bouton ADD légèrement plus bas pour espacer -->
+        <Button fx:id="add" layoutX="260.0" layoutY="310.0" mnemonicParsing="false" text="ADD" />
+    </children>
+</AnchorPane>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.reclamation.Updaterec">
+   <children>
+      <VBox layoutX="150.0" layoutY="40.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <Label text="Update Reclamation" style="-fx-font-size: 18px; -fx-text-fill: #813939;" />
+         <TextField fx:id="titre" promptText="Titre" />
+         <TextField fx:id="desc" promptText="Description" />
+         <TextField fx:id="status" promptText="Status" />
+         <DatePicker fx:id="date" promptText="Date" />
+         <ComboBox fx:id="categorieCombo" promptText="Catégorie" prefWidth="200" />
+         <Button fx:id="update" text="UPDATE" />
+      </VBox>
+   </children>
+</AnchorPane>
