@@ -3,7 +3,6 @@ package gui.reponse;
 import entities.reclamation;
 import entities.reponse;
 import gui.remboursement.CreateRemboursement;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import services.ReponseC;
 import services.reclamationC;
 import services.remboursementC;
@@ -22,13 +20,9 @@ import utils.MyConnection;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-
 
 public class Createrep implements Initializable {
 
@@ -55,8 +49,26 @@ public class Createrep implements Initializable {
     }
 
     private void ajouterReponse() throws SQLException {
-        String contenuTexte = cont.getText();
+        String contenuTexte = cont.getText().trim();
         LocalDate dateReponse = Date.getValue();
+
+        // Contrôle de saisie : le contenu de la réponse ne doit pas être vide
+        if (contenuTexte.isEmpty()) {
+            showAlert("Le champ 'Contenu' est obligatoire.");
+            return;
+        }
+
+        // Contrôle de saisie : le contenu doit être suffisamment long (par exemple, au moins 10 caractères)
+        if (contenuTexte.length() < 10) {
+            showAlert("Le contenu de la réponse doit comporter au moins 10 caractères.");
+            return;
+        }
+
+        // Contrôle de saisie : la date ne doit pas être dans le passé
+        if (dateReponse == null || dateReponse.isBefore(LocalDate.now())) {
+            showAlert("La date de réponse doit être aujourd'hui ou dans le futur.");
+            return;
+        }
 
         if (reclamation == null) {
             System.err.println("Erreur : aucune réclamation liée !");
@@ -69,24 +81,26 @@ public class Createrep implements Initializable {
         ReponseC rc = new ReponseC();
         rc.create(r);
 
-// Vérifiez si la réclamation est correctement obtenue
-        System.out.println("Réclamation avant mise à jour : " + reclamation.getStatus());
-
-// Mettre à jour le statut
+        // Mettre à jour le statut de la réclamation
         reclamation.setStatus("resolved");
         new reclamationC().update(reclamation);
 
-// Vérifiez si la réclamation a bien été mise à jour
-        System.out.println("Réclamation après mise à jour : " + reclamation.getStatus());
-
-
+        // Réinitialiser les champs après soumission
         cont.clear();
         Date.setValue(null);
 
         System.out.println("Réponse ajoutée à la réclamation ID " + recId);
 
-        // 🔍 Ouvre la fenêtre de remboursement seulement si éligible
+        // Ouvrir la fenêtre de remboursement si éligible
         ouvrirFenetreRemboursement();
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur de saisie");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     private void ouvrirFenetreRemboursement() {
@@ -102,7 +116,8 @@ public class Createrep implements Initializable {
                 alert.showAndWait();
                 return;
             }
-            // 🔄 Vérifier la catégorie
+
+            // Vérification de la catégorie
             String categorieNom = getCategorieNomById(reclamation.getCategorieId());
             if (categorieNom.equalsIgnoreCase("Service")) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -112,8 +127,7 @@ public class Createrep implements Initializable {
                 return;
             }
 
-
-            // ⚠️ Logique métier simple : vérifier si le contenu de la réclamation contient des mots-clés
+            // Vérification de l'éligibilité du contenu de la réclamation pour le remboursement
             String contenu = (reclamation.getTitre() + " " + reclamation.getDescription()).toLowerCase();
             boolean estEligible = contenu.contains("défectueux")
                     || contenu.contains("non reçu")
@@ -121,11 +135,11 @@ public class Createrep implements Initializable {
                     || contenu.contains("remboursement");
 
             if (!estEligible) {
-                System.out.println("Réclamation non éligible au remboursement.");
+                System.out.println("Réclamation non eligible au remboursement.");
                 return;
             }
 
-            // ✅ Ouvre la fenêtre de remboursement
+            // Ouvre la fenêtre de remboursement si éligible
             URL fxmlLocation = getClass().getResource("/reclamation/createremboursement.fxml");
             if (fxmlLocation == null) {
                 System.err.println("Le fichier FXML de remboursement n'a pas été trouvé !");
@@ -159,6 +173,7 @@ public class Createrep implements Initializable {
         }
         return "";
     }
+
     public void setReclamation(reclamation r) {
         this.reclamation = r;
         System.out.println("Répondre à la réclamation ID : " + r.getId());

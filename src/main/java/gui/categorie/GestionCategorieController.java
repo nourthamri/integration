@@ -1,73 +1,124 @@
 package gui.categorie;
 
+import entities.CategorieReclamation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import services.CategorieReclamationC;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class GestionCategorieController {
 
     @FXML
-    private ListView<String> listCategorie;  // Liste des catégories
-    @FXML
-    private TextField nomField;  // Champ de texte pour le nom de la catégorie
-    @FXML
-    private Button btnAjouter;  // Bouton Ajouter
-    @FXML
-    private Button btnModifier;  // Bouton Modifier
-    @FXML
-    private Button btnSupprimer;  // Bouton Supprimer
+    private ListView<CategorieReclamation> listCategorie;
 
-    private ObservableList<String> categories;  // Liste observable pour contenir les catégories
+    @FXML
+    private TextField nomField;
 
-    public GestionCategorieController() {
-        // Initialisation de la liste des catégories
-        categories = FXCollections.observableArrayList();
-    }
+    @FXML
+    private Button btnAjouter, btnModifier, btnSupprimer, btnRafraichir;
+
+    private final CategorieReclamationC service = new CategorieReclamationC();
+    private ObservableList<CategorieReclamation> categories = FXCollections.observableArrayList();
 
     @FXML
     private void initialize() {
-        // Initialiser le ListView avec la liste de catégories
-        listCategorie.setItems(categories);
+        try {
+            categories.addAll(service.readAll());
+            listCategorie.setItems(categories);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        // Ajout d'un événement pour le bouton Ajouter
         btnAjouter.setOnAction(event -> ajouterCategorie());
-
-        // Ajout d'un événement pour le bouton Modifier
         btnModifier.setOnAction(event -> modifierCategorie());
-
-        // Ajout d'un événement pour le bouton Supprimer
         btnSupprimer.setOnAction(event -> supprimerCategorie());
+        btnRafraichir.setOnAction(event -> rafraichirCategories());
     }
 
-    // Méthode pour ajouter une catégorie
     private void ajouterCategorie() {
-        String nomCategorie = nomField.getText().trim();
-        if (!nomCategorie.isEmpty()) {
-            categories.add(nomCategorie);  // Ajouter la catégorie à la liste
-            nomField.clear();  // Effacer le champ de texte
+        String nom = nomField.getText().trim();
+        if (nom.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Champ vide", "Veuillez saisir un nom de catégorie !");
+            return;
         }
-    }
 
-    // Méthode pour modifier une catégorie
-    private void modifierCategorie() {
-        String selectedCategorie = listCategorie.getSelectionModel().getSelectedItem();
-        if (selectedCategorie != null) {
-            String nomCategorie = nomField.getText().trim();
-            if (!nomCategorie.isEmpty()) {
-                categories.set(categories.indexOf(selectedCategorie), nomCategorie);  // Modifier la catégorie
-                nomField.clear();  // Effacer le champ de texte
+        try {
+            if (service.nomCategorieExiste(nom)) {
+                showAlert(Alert.AlertType.ERROR, "Doublon", "Cette catégorie existe déjà !");
+                return;
             }
+
+            CategorieReclamation cat = new CategorieReclamation(nom);
+            service.create(cat);
+            rafraichirCategories();
+            nomField.clear();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    // Méthode pour supprimer une catégorie
-    private void supprimerCategorie() {
-        String selectedCategorie = listCategorie.getSelectionModel().getSelectedItem();
-        if (selectedCategorie != null) {
-            categories.remove(selectedCategorie);  // Supprimer la catégorie sélectionnée
+    private void modifierCategorie() {
+        CategorieReclamation selected = listCategorie.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert(Alert.AlertType.INFORMATION, "Aucune sélection", "Veuillez sélectionner une catégorie à modifier.");
+            return;
         }
+
+        String nouveauNom = nomField.getText().trim();
+        if (nouveauNom.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Champ vide", "Veuillez saisir un nouveau nom !");
+            return;
+        }
+
+        try {
+            if (service.nomCategorieExiste(nouveauNom)) {
+                showAlert(Alert.AlertType.ERROR, "Doublon", "Une catégorie avec ce nom existe déjà !");
+                return;
+            }
+
+            selected.setNom(nouveauNom);
+            service.update(selected);
+            rafraichirCategories();
+            nomField.clear();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void supprimerCategorie() {
+        CategorieReclamation selected = listCategorie.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert(Alert.AlertType.INFORMATION, "Aucune sélection", "Veuillez sélectionner une catégorie à supprimer.");
+            return;
+        }
+
+        try {
+            service.delete(selected.getId());
+            rafraichirCategories();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void rafraichirCategories() {
+        try {
+            categories.clear();
+            categories.addAll(service.readAll());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

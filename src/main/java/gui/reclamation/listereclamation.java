@@ -17,7 +17,10 @@ import javafx.stage.Stage;
 import entities.reclamation;
 import entities.reponse;
 import services.reclamationC;
+import services.CategorieReclamationC;
 import javafx.scene.Parent;
+
+
 
 
 import java.io.IOException;
@@ -27,18 +30,24 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class listereclamation implements Initializable {
-
+    @FXML
+    private Button btnRefresh;
     @FXML
     private ListView<HBox> listViewReclamations;
 
     private ObservableList<HBox> reclamationList = FXCollections.observableArrayList();
     private final reclamationC service = new reclamationC();
+    private final services.CategorieReclamationC catService = new CategorieReclamationC();
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         listViewReclamations.setItems(reclamationList);
         loadReclamations();
+
+        btnRefresh.setOnAction(event -> loadReclamations());
     }
+
 
     private void loadReclamations() {
         try {
@@ -46,11 +55,14 @@ public class listereclamation implements Initializable {
             List<reclamation> reclamations = service.readAll();
 
             for (reclamation r : reclamations) {
+                String nomCategorie = catService.getNomCategorieById(r.getCategorieId());
+
                 Text info = new Text(
                         "Titre : " + r.getTitre() +
                                 "\nDescription : " + r.getDescription() +
                                 "\nStatus : " + r.getStatus() +
-                                "\nDate : " + (r.getDate() != null ? r.getDate().toString() : "Non précisée")
+                                "\nDate : " + (r.getDate() != null ? r.getDate().toString() : "Non précisée") +
+                                "\nCatégorie : " + nomCategorie
                 );
 
                 Button btnModifier = new Button("Modifier");
@@ -129,8 +141,28 @@ public class listereclamation implements Initializable {
                         ex.printStackTrace();
                     }
                 });
+                Button btnRemboursements = new Button("Voir remboursements");
+
+                btnRemboursements.setOnAction(e -> {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/reclamation/listeremboursement.fxml")); // ✅ chemin corrigé
+                        Parent root = loader.load();
+
+                        // Récupérer le contrôleur
+                        gui.remboursement.listeremboursement controller = loader.getController();
+                        controller.setReclamationId(r.getId()); // ← passe l'ID de la réclamation sélectionnée
+
+                        Stage stage = new Stage();
+                        stage.setTitle("Liste des remboursements");
+                        stage.setScene(new Scene(root));
+                        stage.showAndWait();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+
                 VBox buttonBox = new VBox(10);
-                buttonBox.getChildren().addAll(btnModifier, btnSupprimer, btnRepondre,btnliste);
+                buttonBox.getChildren().addAll(btnModifier, btnSupprimer, btnRepondre, btnliste, btnRemboursements);
 
                 HBox ligne = new HBox(20);
                 ligne.getChildren().addAll(info, buttonBox);

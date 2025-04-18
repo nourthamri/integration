@@ -20,26 +20,56 @@ public class remboursementC {
         ps.setDate(3, Date.valueOf(r.getDate()));
         ps.executeUpdate();
     }
+    public void delete(int id) throws SQLException {
+        String sql = "DELETE FROM remboursement WHERE id = ?";
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
+    }
+
+    public List<remboursement> readAll() throws SQLException {
+        List<remboursement> list = new ArrayList<>();
+        String sql = "SELECT * FROM remboursement";
+
+        try (Statement st = cnx.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+
+            while (rs.next()) {
+                remboursement r = new remboursement(
+                        rs.getInt("id"),
+                        rs.getInt("reclamation_id"),
+                        rs.getDouble("montant"),
+                        rs.getDate("date").toLocalDate()
+                );
+                list.add(r);
+            }
+        }
+        return list;
+    }
+
 
     public List<remboursement> readByReclamationId(int reclamationId) throws SQLException {
         List<remboursement> list = new ArrayList<>();
-        String query = "SELECT * FROM remboursement WHERE reclamation_id = ?";
-        PreparedStatement ps = cnx.prepareStatement(query);
-        ps.setInt(1, reclamationId);
-        ResultSet rs = ps.executeQuery();
+        String sql = "SELECT * FROM remboursement WHERE reclamation_id = ?";
 
-        while (rs.next()) {
-            remboursement r = new remboursement(
-                    rs.getInt("id"),
-                    rs.getInt("reclamation_id"),
-                    rs.getDouble("montant"),
-                    rs.getDate("date").toLocalDate()
-            );
-            list.add(r);
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setInt(1, reclamationId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    remboursement r = new remboursement(
+                            rs.getInt("id"),
+                            rs.getInt("reclamation_id"),
+                            rs.getDouble("montant"),
+                            rs.getDate("date").toLocalDate()
+                    );
+                    list.add(r);
+                }
+            }
         }
-
         return list;
     }
+
     public boolean remboursementExistePour(int idReclamation) throws SQLException {
         String query = "SELECT COUNT(*) FROM remboursement WHERE reclamation_id = ?";
         PreparedStatement ps = cnx.prepareStatement(query);

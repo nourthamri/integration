@@ -11,6 +11,7 @@ import services.CategorieReclamationC;
 import services.reclamationC;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Updaterec {
@@ -19,7 +20,8 @@ public class Updaterec {
     private TextField titre;
 
     @FXML
-    private TextField desc;
+    private TextArea desc;
+
 
     @FXML
     private TextField status;
@@ -33,6 +35,17 @@ public class Updaterec {
     @FXML
     private Button update;
 
+    @FXML
+    private void buttonHover() {
+        update.setStyle("-fx-background-color: #5591e6; -fx-text-fill: white;");
+    }
+
+    @FXML
+    private void buttonExit() {
+        update.setStyle("-fx-background-color: #6fa3ef; -fx-text-fill: white;");
+    }
+
+
     private reclamation reclamation;
     private final reclamationC service = new reclamationC();
     private final CategorieReclamationC catService = new CategorieReclamationC();
@@ -45,9 +58,6 @@ public class Updaterec {
         desc.setText(r.getDescription());
         date.setValue(r.getDate());
         status.setText(r.getStatus());
-
-        // Si tu veux stocker la catégorie dans la réclamation, fais ici :
-        // categorieCombo.setValue(r.getCategorie());
     }
 
     public void setOnUpdateSuccess(Runnable callback) {
@@ -68,13 +78,27 @@ public class Updaterec {
         }
 
         update.setOnAction(e -> {
+            // === CONTRÔLE DE SAISIE ===
+            if (titre.getText().isEmpty() || desc.getText().isEmpty() || status.getText().isEmpty()) {
+                showAlert("Veuillez remplir tous les champs de texte.");
+                return;
+            }
+
+            if (date.getValue() == null || date.getValue().isBefore(LocalDate.now())) {
+                showAlert("La date doit être aujourd'hui ou dans le futur.");
+                return;
+            }
+
+            if (categorieCombo.getValue() == null) {
+                showAlert("Veuillez sélectionner une catégorie.");
+                return;
+            }
+
+            // === SI OK, ENREGISTRER ===
             reclamation.setTitre(titre.getText());
             reclamation.setDescription(desc.getText());
             reclamation.setStatus(status.getText());
             reclamation.setDate(date.getValue());
-
-            // Si tu veux stocker la catégorie sélectionnée
-            // reclamation.setCategorie(categorieCombo.getValue());
 
             try {
                 service.update(reclamation);
@@ -86,5 +110,13 @@ public class Updaterec {
                 System.err.println("Erreur lors de la mise à jour : " + ex.getMessage());
             }
         });
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur de validation");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
