@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="piproject.controllers.ModifyCategoryController"
+            stylesheets="@style.css" styleClass="root" prefHeight="600.0" prefWidth="800.0">
+    <children>
+        <Label text="Modify Category" layoutX="140" layoutY="20" styleClass="title"/>
+
+        <Label text="Name:" layoutX="50" layoutY="70" styleClass="label"/>
+        <TextField fx:id="nameField" layoutX="150" layoutY="70" styleClass="text-field"/>
+
+        <Label text="Description:" layoutX="50" layoutY="120" styleClass="label"/>
+        <TextField fx:id="descField" layoutX="150" layoutY="120" styleClass="text-field"/>
+
+        <Button text="Update" layoutX="150" layoutY="180" onAction="#handleUpdateCategory" styleClass="button-success"/>
+        <Button text="Back" layoutX="230" layoutY="180" onAction="#handleBack" styleClass="button-secondary"/>
+    </children>
+</AnchorPane>

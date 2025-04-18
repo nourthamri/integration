@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="piproject.controllers.ProductListControlle"
+            prefHeight="600.0" prefWidth="900.0"
+            stylesheets="@style.css"
+            styleClass="root">
+
+    <VBox spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20"
+          styleClass="container">
+        <Label text="Liste des Produits" styleClass="title" />
+
+        <ListView fx:id="productListView" prefHeight="450" styleClass="list-view" />
+
+        <HBox spacing="15">
+            <Button fx:id="addButton" text="➕ Ajouter" onAction="#onAddProduct" styleClass="button-success" />
+            <Button fx:id="deleteButton" text="🗑️ Supprimer" onAction="#onDeleteProduct" styleClass="button-error" />
+            <Button fx:id="modifyButton" text="✏️ Modifier" onAction="#onModifyProduct" styleClass="button-secondary" />
+            <!-- New button to navigate to CategoryList -->
+            <Button fx:id="categoryListButton" text="📋 Liste des Catégories" onAction="#onCategoryList" styleClass="button-primary" />
+        </HBox>
+    </VBox>
+
+</AnchorPane>

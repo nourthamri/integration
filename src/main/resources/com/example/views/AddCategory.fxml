@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="piproject.controllers.AddCategoryController"
+            prefHeight="600.0" prefWidth="800.0" stylesheets="@style.css" styleClass="root">
+    <VBox spacing="16" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="40" AnchorPane.rightAnchor="40"
+          styleClass="container">
+        <Label text="Add Category" styleClass="title" />
+
+        <TextField fx:id="nameField" promptText="Category Name" styleClass="text-field" />
+        <TextField fx:id="descField" promptText="Category Description" styleClass="text-field" />
+
+        <HBox spacing="12">
+            <Button text="✅ Add" onAction="#handleAddCategory" styleClass="button-success" />
+            <Button text="↩️ Back" onAction="#handleBack" styleClass="button-secondary" />
+        </HBox>
+    </VBox>
+</AnchorPane>

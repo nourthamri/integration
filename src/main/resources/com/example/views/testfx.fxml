@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="piproject.controllers.productController"
+            prefHeight="600.0" prefWidth="600.0">
+
+   <top>
+      <VBox spacing="10.0" alignment="CENTER" BorderPane.alignment="CENTER" style="-fx-padding: 15;">
+         <TextField fx:id="nom" promptText="Nom" />
+         <TextField fx:id="description" promptText="Description" />
+         <TextField fx:id="coupon" promptText="Coupon" />
+         <TextField fx:id="valeur" promptText="Valeur" />
+         <TextField fx:id="etat" promptText="État" />
+         <TextField fx:id="dispo" promptText="Disponibilité" />
+         <ComboBox fx:id="categoriecombo" promptText="Choisir une catégorie" />
+
+         <Button text="Choisir Image" onAction="#imageChoose"/>
+         <ImageView fx:id="imagePreview" fitHeight="150" fitWidth="200" preserveRatio="true" />
+         <Label fx:id="statusLabel" textFill="green"/>
+      </VBox>
+   </top>
+
+   <right>
+      <Button text="Add Product" onMouseClicked="#add" BorderPane.alignment="CENTER"/>
+   </right>
+</BorderPane>

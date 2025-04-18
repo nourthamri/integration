@@ -1,0 +1,73 @@
+package piproject.models;
+
+import java.util.Objects;
+
+public class Category {
+    private int category_id;
+    private String category_name;
+    private String category_description;
+
+    // Constructors
+    public Category() {}
+
+    public Category(int category_id, String category_name, String category_description) {
+        this.category_id = category_id;
+        this.category_name = category_name;
+        this.category_description = category_description;
+    }
+
+    public Category(String category_name, String category_description) {
+        this.category_name = category_name;
+        this.category_description = category_description;
+    }
+
+    // Getters & Setters
+    public int getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
+    }
+
+    public String getCategory_name() {
+        return category_name;
+    }
+
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
+
+    public String getCategory_description() {
+        return category_description;
+    }
+
+    public void setCategory_description(String category_description) {
+        this.category_description = category_description;
+    }
+
+    // equals, hashCode, toString
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Category)) return false;
+        Category category = (Category) o;
+        return category_id == category.category_id &&
+                Objects.equals(category_name, category.category_name) &&
+                Objects.equals(category_description, category.category_description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(category_id, category_name, category_description);
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "category_id=" + category_id +
+                ", category_name='" + category_name + '\'' +
+                ", category_description='" + category_description + '\'' +
+                '}';
+    }
+}
