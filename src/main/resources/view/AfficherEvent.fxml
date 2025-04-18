@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="root" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AfficherEventController">
+    <HBox alignment="CENTER_LEFT" prefHeight="50.0" styleClass="container" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <padding>
+            <Insets left="20.0" right="20.0" />
+        </padding>
+        <TextField fx:id="searchInput" prefHeight="18.0" prefWidth="606.0" promptText="Rechercher des événements" styleClass="text-field" HBox.hgrow="ALWAYS" />
+        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+            <Button fx:id="btnajouter" onAction="#handleAjouterEvent" styleClass="button-success">
+                <graphic>
+                    <ImageView fx:id="btnajouter1" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../img/ajouter.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="logoutBtn" onAction="#handleLogout" prefHeight="36.0" prefWidth="43.0" styleClass="button-secondary">
+                <graphic>
+                    <ImageView fx:id="logoutBtnImg" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../img/se-deconnecter.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+    </HBox>
+    <Pane layoutX="4.0" prefHeight="526.0" prefWidth="792.0" styleClass="container" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="70.0">
+        <Label fx:id="courseTitle" layoutX="20.0" layoutY="14.0" styleClass="title" text="Liste des Événements" />
+        <ListView fx:id="listViewEvent" layoutX="14.0" layoutY="56.0" prefHeight="394.0" prefWidth="782.0" styleClass="list-view" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="50.0" />
+        <HBox alignment="CENTER_RIGHT" layoutX="550.0" layoutY="460.0" spacing="10.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+            <Button fx:id="btnmodifier" onAction="#handleModifierEvent" styleClass="button-warning" text="Modifier" />
+        </HBox>
+    </Pane>
+    <AnchorPane fx:id="demandeJoinWBContainer" layoutX="50.0" layoutY="450.0" prefHeight="80.0" prefWidth="300.0" styleClass="container" visible="false">
+        <Label fx:id="courseWBJTitle" layoutX="70.0" layoutY="20.0" styleClass="subtitle" text="Whiteboard Request" />
+    </AnchorPane>
+</AnchorPane>

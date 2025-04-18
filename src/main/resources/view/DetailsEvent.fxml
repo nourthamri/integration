@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0"
+            xmlns="http://javafx.com/javafx/17.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.DetailsEventController"
+            stylesheets="@../styles/style.css"
+            styleClass="root">
+
+    <Pane fx:id="mainPageContainer" layoutX="10.0" layoutY="10.0" prefHeight="580.0" prefWidth="880.0" styleClass="main-container">
+
+        <!-- Header -->
+        <Label text="Détail Événement" layoutX="80.0" layoutY="20.0" styleClass="header-title"/>
+        <Button fx:id="btnreturn" layoutX="20.0" layoutY="15.0" onAction="#handleReturnButtonClick" styleClass="icon-button">
+            <graphic>
+                <ImageView fitHeight="28.0" fitWidth="28.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../img/return-104.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+
+        <!-- Labels gauche (infos événement) -->
+        <Label text="Nom:" layoutX="40.0" layoutY="80.0" styleClass="label-title"/>
+        <Label fx:id="nomLabelDetail" layoutX="150.0" layoutY="80.0" styleClass="label-value"/>
+
+        <Label text="Lieu:" layoutX="40.0" layoutY="120.0" styleClass="label-title"/>
+        <Label fx:id="lieuLabelDetail" layoutX="150.0" layoutY="120.0" styleClass="label-value"/>
+
+        <Label text="Date:" layoutX="40.0" layoutY="160.0" styleClass="label-title"/>
+        <Label fx:id="dateLabelDetail" layoutX="150.0" layoutY="160.0" styleClass="label-value"/>
+
+        <Label text="Description:" layoutX="40.0" layoutY="200.0" styleClass="label-title"/>
+        <Label fx:id="desLabelDetail" layoutX="150.0" layoutY="200.0" wrapText="true" prefWidth="400.0" styleClass="label-description"/>
+
+        <!-- Image à droite -->
+        <ImageView fx:id="ImageViewDetail" layoutX="580.0" layoutY="80.0" fitHeight="250.0" fitWidth="260.0" preserveRatio="true" styleClass="event-image"/>
+
+        <!-- Boutons actions centrés -->
+        <VBox layoutX="100.0" layoutY="360.0" spacing="15.0">
+            <Button fx:id="btnparticiper" onAction="#Participer" text="Participer" styleClass="modern-button">
+                <graphic>
+                    <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                        <image><Image url="@../img/participer.png"/></image>
+                    </ImageView>
+                </graphic>
+                <Tooltip text="Participer à l'événement"/>
+            </Button>
+
+            <Button fx:id="btnsupp" onAction="#supprimerEvent" text="Supprimer" styleClass="modern-button">
+                <graphic>
+                    <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                        <image><Image url="@../img/deleteicon.png"/></image>
+                    </ImageView>
+                </graphic>
+                <Tooltip text="Supprimer cet événement"/>
+            </Button>
+
+            <Button fx:id="btnmodifier" onAction="#modifierEvent" text="Modifier" styleClass="modern-button">
+                <graphic>
+                    <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                        <image><Image url="@../img/modifyicon.png"/></image>
+                    </ImageView>
+                </graphic>
+                <Tooltip text="Modifier les détails"/>
+            </Button>
+
+            <Button fx:id="btnpart" onAction="#afficherListeParticipants" text="Participants" styleClass="modern-button">
+                <graphic>
+                    <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                        <image><Image url="@../img/team-building.png"/></image>
+                    </ImageView>
+                </graphic>
+                <Tooltip text="Voir les participants"/>
+            </Button>
+        </VBox>
+
+
+    </Pane>
+
+    <!-- Role caché -->
+    <Label fx:id="userRoleLabel" text="User Role" visible="false"/>
+</AnchorPane>
+
