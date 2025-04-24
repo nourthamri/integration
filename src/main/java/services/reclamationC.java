@@ -1,6 +1,6 @@
 package services;
 
-import entities.reclamation;
+import models.reclamation;
 import utils.MyConnection;
 
 import java.sql.*;

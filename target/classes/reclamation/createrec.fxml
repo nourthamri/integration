@@ -1,65 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.*?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefWidth="600.0" prefHeight="500.0"
-            xmlns="http://javafx.com/javafx/23.0.1"
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="gui.reclamation.Createrec"
-            stylesheets="@../css/modern-styles.css">
-    <children>
-        <VBox styleClass="container" spacing="24"
-              AnchorPane.topAnchor="24.0"
-              AnchorPane.leftAnchor="24.0"
-              AnchorPane.rightAnchor="24.0"
-              AnchorPane.bottomAnchor="24.0">
+            fx:controller="controllers.reclamation.Createrec"
+            stylesheets="@../css/modern-styles.css"
+            prefWidth="900.0" prefHeight="600.0">
+
+    <!-- Sidebar à gauche -->
+    <left>
+        <fx:include source="/sidebar.fxml"/> <!-- Vérifie le chemin réel si nécessaire -->
+    </left>
+
+    <!-- Contenu principal -->
+    <center>
+        <VBox styleClass="container" spacing="24" alignment="TOP_CENTER"
+              BorderPane.alignment="CENTER">
             <padding>
-                <Insets top="24" right="24" bottom="24" left="24"/>
+                <Insets top="32.0" right="32.0" bottom="32.0" left="32.0"/>
             </padding>
 
-            <children>
-                <!-- Titre -->
-                <Label text="Nouvelle Réclamation" styleClass="title"/>
+            <Label text="Nouvelle Réclamation" styleClass="title"/>
 
-                <!-- Form Container -->
-                <VBox spacing="16">
-                    <!-- Champ Titre -->
-                    <VBox spacing="8">
-                        <Label text="Titre" styleClass="subtitle"/>
-                        <TextField fx:id="titre" promptText="Entrez le titre"/>
-                    </VBox>
-
-                    <!-- Champ Description -->
-                    <VBox spacing="8">
-                        <Label text="Description" styleClass="subtitle"/>
-                        <TextArea fx:id="desc" promptText="Entrez la description"
-                                  prefRowCount="3" wrapText="true"/>
-                    </VBox>
-
-                    <!-- Date Picker -->
-                    <VBox spacing="8">
-                        <Label text="Date" styleClass="subtitle"/>
-                        <DatePicker fx:id="date" promptText="Sélectionnez une date"/>
-                    </VBox>
-
-                    <!-- Catégorie -->
-                    <VBox spacing="8">
-                        <Label text="Catégorie" styleClass="subtitle"/>
-                        <ComboBox fx:id="categorieCombo" promptText="Choisir une catégorie"
-                                  maxWidth="Infinity"/>
-                    </VBox>
+            <VBox spacing="16">
+                <!-- Champ Titre -->
+                <VBox spacing="8">
+                    <Label text="Titre" styleClass="subtitle"/>
+                    <TextField fx:id="titre" promptText="Entrez le titre"/>
                 </VBox>
 
-                <!-- Spacer -->
-                <Region VBox.vgrow="ALWAYS"/>
+                <!-- Champ Description -->
+                <VBox spacing="8">
+                    <Label text="Description" styleClass="subtitle"/>
+                    <TextArea fx:id="desc" promptText="Entrez la description"
+                              prefRowCount="3" wrapText="true"/>
+                </VBox>
 
-                <!-- Bouton -->
-                <Button fx:id="add" text="Ajouter la réclamation"
-                        onMouseEntered="#buttonHover" onMouseExited="#buttonExit"
-                        maxWidth="Infinity"/>
-            </children>
+                <!-- Champ Date -->
+                <VBox spacing="8">
+                    <Label text="Date" styleClass="subtitle"/>
+                    <DatePicker fx:id="date" promptText="Sélectionnez une date"/>
+                </VBox>
+
+                <!-- ComboBox Catégorie -->
+                <VBox spacing="8">
+                    <Label text="Catégorie" styleClass="subtitle"/>
+                    <ComboBox fx:id="categorieCombo" promptText="Choisir une catégorie"
+                              maxWidth="Infinity"/>
+                </VBox>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button fx:id="add" text="Ajouter la réclamation"
+                    onMouseEntered="#buttonHover" onMouseExited="#buttonExit"
+                    maxWidth="Infinity"/>
         </VBox>
-    </children>
-</AnchorPane>
+    </center>
+</BorderPane>

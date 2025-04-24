@@ -1,7 +1,6 @@
 package services;
 
-import entities.remboursement;
-import entities.reclamation;
+import models.remboursement;
 import utils.MyConnection;
 
 import java.sql.*;

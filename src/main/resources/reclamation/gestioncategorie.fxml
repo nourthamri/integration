@@ -7,7 +7,7 @@
 <AnchorPane prefWidth="800.0" prefHeight="600.0" 
             xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="gui.categorie.GestionCategorieController"
+            fx:controller="controllers.categorie.GestionCategorieController"
             stylesheets="@../css/modern-styles.css">
     <children>
         <VBox styleClass="container" spacing="24"

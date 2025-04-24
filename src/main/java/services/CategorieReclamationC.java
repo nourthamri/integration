@@ -1,6 +1,6 @@
 package services;
 
-import entities.CategorieReclamation;
+import models.CategorieReclamation;
 import utils.MyConnection;
 
 import java.sql.*;
@@ -107,6 +107,16 @@ public class CategorieReclamationC {
             }
         }
         return 0;
+    }
+    public List<String> getAllCategoryNames() throws SQLException {
+        List<String> noms = new ArrayList<>();
+        String req = "SELECT nom FROM categorie_reclamation";
+        Statement st = cnx.createStatement();
+        ResultSet rs = st.executeQuery(req);
+        while (rs.next()) {
+            noms.add(rs.getString("nom"));
+        }
+        return noms;
     }
 
 

@@ -5,22 +5,42 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="gui.Detailsreclamation"
+            fx:controller="controllers.Detailsreclamation"
             prefHeight="400.0" prefWidth="600.0"
-            stylesheets="@../css/modern-styles.css">
+            stylesheets="@/css/modern-styles.css"
+>
     <children>
-        <VBox spacing="16" alignment="CENTER" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0"
-              AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
+        <VBox spacing="16" alignment="CENTER"
+              AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0"
+              AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0"
+              styleClass="container">
+            <padding>
+                <Insets top="16.0" right="16.0" bottom="16.0" left="16.0"/>
+            </padding>
 
-            <Label text="Détails de la réclamation" styleClass="title"/>
+            <Label text="📝 Détails de la réclamation" styleClass="title"/>
 
-            <TextArea fx:id="txtReponse" editable="false" promptText="Aucune réponse" wrapText="true" prefRowCount="4"/>
-            <TextArea fx:id="txtRemboursement" editable="false" promptText="Aucun remboursement" wrapText="true" prefRowCount="2"/>
+            <TextArea fx:id="txtReponse"
+                      editable="false"
+                      wrapText="true"
+                      prefRowCount="4"
+                      promptText="Aucune réponse encore..."
+                      styleClass="text-area"/>
 
-            <Button text="Fermer" onAction="#fermer"/>
+            <TextArea fx:id="txtRemboursement"
+                      editable="false"
+                      wrapText="true"
+                      prefRowCount="2"
+                      promptText="Aucun remboursement disponible."
+                      styleClass="text-area"/>
+
+            <Button text="Fermer"
+                    onAction="#fermer"
+                    styleClass="button-secondary"/>
         </VBox>
     </children>
 </AnchorPane>

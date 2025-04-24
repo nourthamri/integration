@@ -8,7 +8,8 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="gui.AccueilFront"
+            fx:controller="controllers.AccueilFront"
+            stylesheets="@/css/modern-styles.css"
             prefHeight="400.0" prefWidth="600.0">
 
     <children>

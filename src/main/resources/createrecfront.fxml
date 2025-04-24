@@ -7,8 +7,9 @@
 <AnchorPane prefWidth="600.0" prefHeight="500.0"
             xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="gui.Createrecfront"
-            stylesheets="@../css/modern-styles.css">
+            fx:controller="controllers.Createrecfront"
+            stylesheets="@/css/modern-styles.css"
+>
 
     <children>
         <VBox spacing="24" alignment="CENTER"

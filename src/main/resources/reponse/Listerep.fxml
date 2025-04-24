@@ -4,36 +4,36 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
 
-<AnchorPane prefWidth="800.0" prefHeight="600.0" 
-            xmlns="http://javafx.com/javafx/23.0.1"
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="gui.reponse.Listerep"
-            stylesheets="@../css/modern-styles.css">
-    <children>
-        <VBox styleClass="container" spacing="24"
-              AnchorPane.topAnchor="24.0" 
-              AnchorPane.leftAnchor="24.0" 
-              AnchorPane.rightAnchor="24.0" 
-              AnchorPane.bottomAnchor="24.0">
+            fx:controller="controllers.reponse.Listerep"
+            stylesheets="@../css/modern-styles.css"
+            prefWidth="800.0" prefHeight="600.0">
+
+    <!-- Sidebar à gauche -->
+    <left>
+        <fx:include source="/sidebar.fxml"/>
+    </left>
+
+    <!-- Contenu principal -->
+    <center>
+        <VBox styleClass="container" spacing="24" alignment="TOP_CENTER"
+              BorderPane.alignment="CENTER">
             <padding>
-                <Insets top="24" right="24" bottom="24" left="24"/>
+                <Insets top="24.0" right="24.0" bottom="24.0" left="24.0"/>
             </padding>
-            
-            <children>
-                <!-- Header -->
-                <HBox spacing="16" alignment="CENTER_LEFT">
-                    <Label text="Liste des réponses" styleClass="title" HBox.hgrow="ALWAYS"/>
-                    <HBox spacing="8" alignment="CENTER_RIGHT">
-                        <Button fx:id="btnRefresh" styleClass="refresh-button"
-                                text="🔄 Rafraîchir"/>
-                        <Button fx:id="btnAdd" text="+ Nouvelle réponse"
-                                styleClass="button-success"/>
-                    </HBox>
+
+            <!-- En-tête avec boutons -->
+            <HBox spacing="16" alignment="CENTER_LEFT">
+                <Label text="Liste des réponses" styleClass="title" HBox.hgrow="ALWAYS"/>
+                <HBox spacing="8" alignment="CENTER_RIGHT">
+                    <Button fx:id="btnRefresh" styleClass="refresh-button" text="🔄 Rafraîchir"/>
+                    <Button fx:id="btnAdd" text="+ Nouvelle réponse" styleClass="button-success"/>
                 </HBox>
-                
-                <!-- Liste des réponses -->
-                <ListView fx:id="listViewReclamations" VBox.vgrow="ALWAYS" styleClass="list-view"/>
-            </children>
+            </HBox>
+
+            <!-- Liste des réponses -->
+            <ListView fx:id="listViewReclamations" VBox.vgrow="ALWAYS" styleClass="list-view"/>
         </VBox>
-    </children>
-</AnchorPane>
+    </center>
+</BorderPane>
