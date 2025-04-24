@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane stylesheets="/styles/style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="org.example.controllers.ProfilController">
+    <left>
+        <VBox alignment="CENTER" spacing="10.0" styleClass="sidebar" />
+    </left>
+
+    <center>
+        <VBox alignment="CENTER" spacing="20.0">
+            <padding>
+                <Insets bottom="50" left="50" right="50" top="50" />
+            </padding>
+
+            <StackPane VBox.vgrow="ALWAYS">
+                <Label styleClass="title_page" text="Mon Profil" />
+            </StackPane>
+
+            <HBox alignment="CENTER" spacing="10.0">
+                <Label styleClass="labelnames" text="Nom:" />
+                <TextField fx:id="lastNameField" promptText="Entrez votre nom" styleClass="inputFields" />
+            </HBox>
+
+            <HBox alignment="CENTER" spacing="10.0">
+                <Label styleClass="labelnames" text="Prénom:" />
+                <TextField fx:id="usernameField" promptText="Entrez votre prénom" styleClass="inputFields" />
+            </HBox>
+
+            <HBox alignment="CENTER" spacing="10.0">
+                <Label styleClass="labelnames" text="Email:" />
+                <TextField fx:id="emailField" promptText="Entrez votre email" styleClass="inputFields" />
+            </HBox>
+
+            <!-- Image de profil -->
+            <HBox alignment="CENTER" spacing="10.0">
+                <Label styleClass="labelnames" text="Photo de profil:" />
+                <ImageView fx:id="profilImageView" fitHeight="100" fitWidth="100" />
+            </HBox>
+            <HBox alignment="CENTER" spacing="10.0">
+                <Button text="Choisir une image" onAction="#handleChooseImage" styleClass="choose-image-button" />
+            </HBox>
+
+            <HBox alignment="CENTER" spacing="10.0">
+                <Label styleClass="labelnames" text="Téléphone:" />
+                <TextField fx:id="phoneNumberField" promptText="Entrez votre téléphone" styleClass="inputFields" />
+            </HBox>
+
+            <HBox spacing="10.0">
+                <Button text="Mettre à jour" onAction="#handleUpdate" styleClass="add_terrain" />
+                <Button text="Supprimer mon compte" onAction="#del" styleClass="btn-delete" />
+            </HBox>
+
+            <Label fx:id="errorLabel" styleClass="error-label" />
+        </VBox>
+    </center>
+</BorderPane>

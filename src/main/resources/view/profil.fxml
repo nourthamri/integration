@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080" prefWidth="1920" styleClass="home-page-container" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.ProfilController">
+    <HBox alignment="CENTER_RIGHT" layoutX="345.0" layoutY="20.0" prefHeight="60.0" prefWidth="797.0" styleClass="headerContainer" stylesheets="@../styles/style.css">
+        <HBox alignment="CENTER" prefHeight="50.0" prefWidth="420.0" styleClass="search-bar-container" stylesheets="@../styles/style.css">
+            <padding>
+                <Insets left="-40.0" />
+            </padding>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="search-bar" width="400.0" />
+            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" styleClass="search-bar-icon" translateX="-395.0">
+                <Image url="@../img/recherche.png" />
+            </ImageView>
+            <TextField fx:id="searchInput" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="350.0" promptText="Search for any thnigs ..." styleClass="search-input" stylesheets="@../styles/style.css">
+                <HBox.margin>
+                    <Insets left="-390.0" />
+                </HBox.margin>
+            </TextField>
+        </HBox>
+        <HBox prefHeight="50.0" prefWidth="80.0">
+            <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="37.0" styleClass="notif-btn" stylesheets="@../styles/style.css" translateY="8.0">
+                <graphic>
+                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="/img/image.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+            <HBox fx:id="notifCount" alignment="CENTER" maxHeight="-Infinity" prefHeight="20.0" prefWidth="20.0" styleClass="notif-count" stylesheets="@../styles/style.css" translateX="-26.0" translateY="9.0" />
+        </HBox>
+        <Circle fx:id="profilImgContainer" fill="DODGERBLUE" radius="90.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="profil-img-container">
+            <HBox.margin>
+                <Insets right="-260.0" />
+            </HBox.margin>
+        </Circle>
+
+    </HBox>
+    <Pane fx:id="mainPageContainer" layoutX="199.0" layoutY="131.0" prefHeight="643.0" prefWidth="987.0" styleClass="main-content-container" stylesheets="@../styles/style.css">
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="133.0" layoutX="62.0" layoutY="-4.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="welcome-container" width="444.0" />
+
+
+        <VBox alignment="CENTER" layoutX="62.0" layoutY="95.0" prefHeight="388.0" prefWidth="549.0" spacing="20.0">
+            <padding>
+                <Insets bottom="50" left="50" right="50" top="50" />
+            </padding>
+            <children>
+                <StackPane VBox.vgrow="ALWAYS">
+                    <children>
+                        <Label styleClass="title_page" text="Mon Profil" />
+                    </children>
+                </StackPane>
+
+                <ImageView fx:id="profilImageView" fitHeight="100.0" fitWidth="100.0" preserveRatio="true" />
+
+                <HBox alignment="CENTER" spacing="10.0">
+                    <children>
+                        <Label styleClass="labelnames" text="Nom:" />
+                        <TextField fx:id="lastNameField" styleClass="inputFields" />
+                    </children>
+                </HBox>
+
+                <HBox alignment="CENTER" spacing="10.0">
+                    <children>
+                        <Label styleClass="labelnames" text="Prénom:" />
+                        <TextField fx:id="usernameField" styleClass="inputFields" />
+                    </children>
+                </HBox>
+
+                <HBox alignment="CENTER" spacing="10.0">
+                    <children>
+                        <Label styleClass="labelnames" text="Email:" />
+                        <TextField fx:id="emailField" styleClass="inputFields" />
+                    </children>
+                </HBox>
+
+                <HBox alignment="CENTER" spacing="10.0">
+                    <children>
+                        <Label styleClass="labelnames" text="Téléphone:" />
+                        <TextField fx:id="phoneNumberField" styleClass="inputFields" />
+                    </children>
+                </HBox>
+
+                <HBox spacing="10.0">
+                    <Button text="Mettre à jour" onAction="#handleEditProfil" styleClass="btn-confirm" />
+                    <Button text="Supprimer le compte" onAction="#del" styleClass="btn-delete" />
+                </HBox>
+            </children>
+        </VBox>
+        <VBox alignment="CENTER" layoutX="67.0" layoutY="191.0" prefHeight="373.0" prefWidth="139.0" spacing="10.0" styleClass="sidebar">
+            <children>
+
+                <Button onAction="#handleEditPassword" styleClass="sidebar-button" text="Edit password" />
+
+                <Button onAction="#del" styleClass="sidebar-button" text="Delete" />
+            </children>
+        </VBox>
+
+    </Pane>
+    <AnchorPane fx:id="demandeJoinWBContainer" layoutX="458.0" layoutY="47.0" prefHeight="120.0" prefWidth="499.0" styleClass="demandeJoinWBContainer" stylesheets="@../styles/style.css" visible="false">
+        <Circle fx:id="demandeJoinWBImg" fill="DODGERBLUE" layoutX="53.0" layoutY="74.0" radius="30.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+        <Label fx:id="courseWBJTitle" layoutX="102.0" layoutY="50.0" prefHeight="47.0" prefWidth="189.0" styleClass="most-progressed-course-title" stylesheets="@../styles/style.css" text="JavaScript Course">
+            <font>
+                <Font name="Jost Regular" size="32.0" />
+            </font>
+        </Label>
+        <Label layoutX="172.0" layoutY="1.0" prefHeight="47.0" prefWidth="150.0" styleClass="second-welcome-msg" stylesheets="@../styles/style.css" text="WhiteBoard Meeting">
+            <font>
+                <Font name="Jost Regular" size="12.0" />
+            </font>
+        </Label>
+
+    </AnchorPane>
+    <VBox alignment="TOP_CENTER" layoutX="32.0" layoutY="127.0" prefHeight="894.0" prefWidth="140.0" styleClass="leftMenuContainer" stylesheets="@../styles/style.css">
+        <children>
+
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                <children>
+                    <Button fx:id="homeBtn" alignment="CENTER" onAction="#loadAjoutLoginHistory" contentDisplay="TOP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="70.4" prefWidth="82.4" styleClass="menu-btn" stylesheets="@../styles/style.css" text="HOME">
+                        <graphic>
+                            <ImageView fx:id="homeBtnImg" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="home-btn-img">
+                                <image>
+                                    <Image url="@../img/abri.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                        <font>
+                            <Font name="System Bold" size="11.773585319519043" />
+                        </font>
+                    </Button>
+                </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+
+            </HBox>
+
+
+
+
+            <HBox alignment="CENTER" prefHeight="85.0" prefWidth="103.0">
+                <VBox.margin>
+                    <Insets top="20.0" />
+                </VBox.margin>
+                <children>
+                    <Button fx:id="logoutBtn" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleLogout" prefHeight="70.4" prefWidth="82.4" styleClass="menu-btn" stylesheets="@../styles/style.css" text="Logout">
+                        <graphic>
+                            <ImageView fx:id="logoutBtnImg" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@../img/se-deconnecter.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                        <font>
+                            <Font name="Jost Regular" size="12.0" />
+                        </font>
+                    </Button>
+                </children>
+            </HBox>
+        </children>
+    </VBox>
+
+</AnchorPane>
