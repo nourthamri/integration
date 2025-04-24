@@ -67,4 +67,26 @@ public class reclamationC implements IService<reclamation> {
 
         return list;
     }
+    public List<reclamation> readByUserId(int userId) throws SQLException {
+        List<reclamation> list = new ArrayList<>();
+        String query = "SELECT * FROM reclamation WHERE user_id = ?";
+        PreparedStatement ps = cnx.prepareStatement(query);
+        ps.setInt(1, userId);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            reclamation r = new reclamation(
+                    rs.getInt("user_id"),
+                    rs.getString("titre"),
+                    rs.getString("description"),
+                    rs.getString("status"),
+                    rs.getDate("date").toLocalDate()
+            );
+            r.setId(rs.getInt("id"));
+            r.setCategorieId(rs.getInt("categorie_id"));
+            list.add(r);
+        }
+        return list;
+    }
+
 }

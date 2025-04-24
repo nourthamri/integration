@@ -1,6 +1,9 @@
 gui\categorie\GestionCategorieController.class
 services\ReponseC.class
+gui\Detailsreclamation.class
 main\TestFX.class
+gui\Createrecfront.class
+gui\AccueilFront.class
 gui\reclamation\Createrec.class
 entities\reponse.class
 services\remboursementC.class
@@ -13,6 +16,7 @@ entities\CategorieReclamation.class
 services\IService.class
 services\CategorieReclamationC.class
 gui\reclamation\listereclamation.class
+gui\Listereclamationsfront.class
 gui\reclamation\Updaterec.class
 gui\reponse\Listerep.class
 gui\reponse\Createrep.class

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="gui.Listereclamationsfront"
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@../css/modern-styles.css">
+    <children>
+        <VBox spacing="12" alignment="CENTER_LEFT"
+              AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0"
+              AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
+
+            <!-- ✅ CORRECT padding avec Insets -->
+            <padding>
+                <Insets top="16.0" right="16.0" bottom="16.0" left="16.0"/>
+            </padding>
+
+            <Label text="📋 Mes réclamations" styleClass="title"/>
+
+            <!-- Barre de recherche -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <TextField fx:id="searchField" promptText="🔍 Rechercher un titre..." prefWidth="300"/>
+                <ComboBox fx:id="statusFilter" promptText="Filtrer par statut..." prefWidth="200"/>
+                <Button text="🔄 Réinitialiser" onAction="#rafraichir"/>
+            </HBox>
+
+            <!-- Liste -->
+            <ListView fx:id="listViewReclamations" VBox.vgrow="ALWAYS"/>
+
+            <Button fx:id="btnRetour" text="← Retour" onAction="#retourAccueil"/>
+        </VBox>
+    </children>
+</AnchorPane>

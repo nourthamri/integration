@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane prefWidth="600.0" prefHeight="500.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gui.Createrecfront"
+            stylesheets="@../css/modern-styles.css">
+
+    <children>
+        <VBox spacing="24" alignment="CENTER"
+              AnchorPane.topAnchor="30.0" AnchorPane.leftAnchor="30.0"
+              AnchorPane.rightAnchor="30.0" AnchorPane.bottomAnchor="30.0">
+            <Label text="Nouvelle Réclamation" styleClass="title"/>
+
+            <TextField fx:id="titre" promptText="Titre" maxWidth="400"/>
+            <TextArea fx:id="desc" promptText="Description" prefRowCount="4" wrapText="true" maxWidth="400"/>
+            <DatePicker fx:id="date" promptText="Date de réclamation" maxWidth="400"/>
+            <ComboBox fx:id="categorieCombo" promptText="Catégorie" maxWidth="400"/>
+            <Button fx:id="btnAjouter" text="Ajouter" maxWidth="200" onAction="#ajouterReclamation"/>
+        </VBox>
+    </children>
+</AnchorPane>
