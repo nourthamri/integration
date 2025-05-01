@@ -13,7 +13,7 @@
 
     <!-- Sidebar à gauche -->
     <left>
-        <fx:include source="/sidebar.fxml"/> <!-- Vérifie le chemin réel si nécessaire -->
+        <fx:include source="/sidebar.fxml"/>
     </left>
 
     <!-- Contenu principal -->
@@ -52,12 +52,32 @@
                     <ComboBox fx:id="categorieCombo" promptText="Choisir une catégorie"
                               maxWidth="Infinity"/>
                 </VBox>
+
+                <!-- Champ Email -->
+                <VBox spacing="8">
+                    <Label text="Email" styleClass="subtitle"/>
+                    <TextField fx:id="emailField" promptText="Entrez votre email"/>
+                </VBox>
             </VBox>
 
             <Region VBox.vgrow="ALWAYS"/>
-            <Button fx:id="add" text="Ajouter la réclamation"
-                    onMouseEntered="#buttonHover" onMouseExited="#buttonExit"
-                    maxWidth="Infinity"/>
+
+            <!-- Boutons en bas -->
+            <VBox spacing="12">
+                <Button fx:id="add"
+                        text="Ajouter la réclamation"
+                        onMouseEntered="#buttonHover"
+                        onMouseExited="#buttonExit"
+                        maxWidth="Infinity"/>
+
+                <Button fx:id="chatbotButton"
+                        text="Ouvrir le Chatbot"
+                        onAction="#openChatbot"
+                        style="-fx-background-color: #6fa3ef; -fx-text-fill: white; -fx-padding: 12px 24px;"
+                        onMouseEntered="#buttonHoverChatbot"
+                        onMouseExited="#buttonExitChatbot"
+                        maxWidth="Infinity"/>
+            </VBox>
         </VBox>
     </center>
 </BorderPane>

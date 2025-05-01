@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.reclamation.DetailsController"
+            prefHeight="550.0" prefWidth="800.0"
+            stylesheets="@/css/modern-styles.css">
+
+    <VBox spacing="20" alignment="TOP_LEFT"
+          AnchorPane.topAnchor="30.0" AnchorPane.leftAnchor="30.0"
+          AnchorPane.rightAnchor="30.0" AnchorPane.bottomAnchor="30.0"
+          styleClass="container">
+
+        <!-- En-tête -->
+        <Label text="📋 Détails de la réclamation" styleClass="title"/>
+
+        <!-- Section Détails -->
+        <VBox spacing="12" styleClass="details-section">
+            <Label text="Titre :" styleClass="subtitle"/>
+            <Label fx:id="lblTitre" styleClass="detail-value"/>
+
+            <Label text="Description :" styleClass="subtitle"/>
+            <TextArea fx:id="txtDescription"
+                      editable="false"
+                      wrapText="true"
+                      styleClass="text-area"
+                      prefRowCount="3"/>
+
+            <HBox spacing="40">
+                <VBox spacing="6">
+                    <Label text="Statut :" styleClass="subtitle"/>
+                    <Label fx:id="lblStatus" styleClass="status-label"/>
+                </VBox>
+                <VBox spacing="6">
+                    <Label text="Date :" styleClass="subtitle"/>
+                    <Label fx:id="lblDate" styleClass="detail-value"/>
+                </VBox>
+            </HBox>
+        </VBox>
+        <!-- Bouton Fermer -->
+        <Button text="Fermer"
+                onAction="#handleClose"
+                styleClass="button-secondary"
+                HBox.hgrow="NEVER"/>
+    </VBox>
+</AnchorPane>

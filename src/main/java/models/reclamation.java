@@ -4,10 +4,18 @@ import java.time.LocalDate;
 
 public class reclamation {
 
-    private int id, id_user;
+    private int id, user_id;
     private String titre, description, status;
     private LocalDate date;
     private int categorieId;
+    private String emailUtilisateur;
+
+    public String getEmailUtilisateur() {
+        return emailUtilisateur;
+    }
+    public void setEmailUtilisateur(String emailUtilisateur) {
+        this.emailUtilisateur = emailUtilisateur;
+    }
 
     // Getters et Setters
     public int getCategorieId() {
@@ -27,11 +35,7 @@ public class reclamation {
     }
 
     public int getId_user() {
-        return id_user;
-    }
-
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
+        return user_id;
     }
 
     public String getTitre() {
@@ -65,21 +69,23 @@ public class reclamation {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+    public reclamation() {}
 
     // Constructeur complet avec categorieId
-    public reclamation(int id, int id_user, String titre, String description, String status, LocalDate date, int categorieId) {
+    public reclamation(int id, int id_user, String titre, String description, String status, LocalDate date, int categorieId, String emailUtilisateur) {
         this.id = id;
-        this.id_user = id_user;
+        this.user_id = id_user;
         this.titre = titre;
         this.description = description;
         this.status = status;
         this.date = date;
         this.categorieId = categorieId;
+        this.emailUtilisateur = emailUtilisateur;
     }
 
     // Constructeur sans ID (ex: pour insertion) avec categorieId
     public reclamation(int id_user, String titre, String description, String status, LocalDate date, int categorieId) {
-        this.id_user = id_user;
+        this.user_id = id_user;
         this.titre = titre;
         this.description = description;
         this.status = status;
@@ -90,15 +96,20 @@ public class reclamation {
     // Constructeurs existants (si tu veux les garder aussi)
     public reclamation(int id, int id_user, String titre, String description, String status, LocalDate date) {
         this.id = id;
-        this.id_user = id_user;
+        this.user_id = id_user;
         this.titre = titre;
         this.description = description;
         this.status = status;
         this.date = date;
     }
+    public reclamation(int userId) {
+        this.user_id = userId;
+        this.status = "en attente";
+        this.date = LocalDate.now();
+    }
 
     public reclamation(int id_user, String titre, String description, String status, LocalDate date) {
-        this.id_user = id_user;
+        this.user_id = id_user;
         this.titre = titre;
         this.description = description;
         this.status = status;
@@ -109,7 +120,7 @@ public class reclamation {
     public String toString() {
         return "Reclamation{" +
                 "id=" + id +
-                ", id_user=" + id_user +
+                ", user_id=" + user_id +
                 ", titre='" + titre + '\'' +
                 ", description='" + description + '\'' +
                 ", status='" + status + '\'' +
@@ -117,4 +128,8 @@ public class reclamation {
                 ", categorieId=" + categorieId +
                 '}';
     }
-}
+
+    public void setUser_id(int id_user) {  this.user_id = id_user;
+    }
+
+    }

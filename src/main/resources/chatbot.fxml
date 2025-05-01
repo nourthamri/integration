@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="16"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.chatbot"
+      stylesheets="@/css/modern-styles.css"
+      alignment="TOP_CENTER"
+      prefWidth="600"
+      prefHeight="400">
+
+    <!-- Titre avec style cohérent -->
+    <Label text="🤖 Assistant Réclamation" styleClass="title"/>
+
+    <!-- Zone de chat avec style unifié -->
+    <TextArea fx:id="chatArea"
+              styleClass="chat-area"
+              prefHeight="300"
+              editable="false"
+              wrapText="true"/>
+
+    <!-- Zone de saisie avec alignement -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="inputField"
+                   styleClass="input-field"
+                   promptText="Écrivez votre question..."
+                   HBox.hgrow="ALWAYS"/>
+
+        <Button text="Envoyer"
+                styleClass="primary-button"
+                onAction="#envoyerMessage"/>
+    </HBox>
+
+</VBox>

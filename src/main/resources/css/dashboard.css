@@ -1,0 +1,64 @@
+/* dashboard.css */
+
+/* Style général du conteneur */
+.container {
+    -fx-background-color: #f5f5f5;
+    -fx-padding: 20px;
+}
+
+/* Titres des graphiques */
+.chart-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Légendes */
+.chart-legend {
+    -fx-font-size: 12px;
+    -fx-background-color: transparent;
+}
+
+/* PieChart - Couleurs des segments */
+.default-color0.chart-pie { -fx-pie-color: #3498db; } /* Bleu */
+.default-color1.chart-pie { -fx-pie-color: #2ecc71; } /* Vert */
+.default-color2.chart-pie { -fx-pie-color: #e74c3c; } /* Rouge */
+
+/* BarChart - Style des barres */
+.default-color0.chart-bar { -fx-bar-fill: #3498db; }
+.default-color1.chart-bar { -fx-bar-fill: #2ecc71; }
+
+/* Axes */
+.axis-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #7f8c8d;
+}
+
+.axis-tick-mark {
+    -fx-stroke: #bdc3c7;
+}
+
+/* Arrière-plan des graphiques */
+.chart-plot-background {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ecf0f1;
+}
+.default-color0.chart-series-line {
+    -fx-stroke: #3498db;
+    -fx-stroke-width: 2px;
+}
+.chart-box {
+    -fx-padding: 15;
+    -fx-background-color: #f5f6fa;
+    -fx-border-radius: 5;
+}
+
+.filter-box {
+    -fx-padding: 10;
+    -fx-background-color: #dcdde1;
+}
+
+.export-button {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+}

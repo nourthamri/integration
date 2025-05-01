@@ -81,8 +81,10 @@ public class Createrep implements Initializable {
         rc.create(r);
 
         // Mettre à jour le statut de la réclamation
-        reclamation.setStatus("resolved");
-        new reclamationC().update(reclamation);
+        new reclamationC().marquerCommeResolue(reclamation.getId());
+
+       reclamation.setStatus("resolved");
+      new reclamationC().update(reclamation);
 
         // Réinitialiser les champs après soumission
         cont.clear();

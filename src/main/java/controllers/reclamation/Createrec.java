@@ -1,6 +1,9 @@
 package controllers.reclamation;
 
+import controllers.SessionManager;
+import javafx.event.ActionEvent;
 import models.CategorieReclamation;
+import models.User;
 import models.reclamation;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,12 +31,35 @@ public class Createrec implements Initializable {
 
     @FXML
     private DatePicker date;
+    @FXML
+    private TextField emailField;
+
 
     @FXML
     private Button add;
 
     @FXML
     private ComboBox<CategorieReclamation> categorieCombo;
+    // Injection du bouton depuis le FXML
+    @FXML
+    private Button chatbotButton;
+
+    // Gestionnaire d'événements pour le bouton
+    @FXML
+    private void openChatbot(ActionEvent event) {
+        switchScene("/chatbot.fxml", "Chatbot d'assistance");
+    }
+
+    // Effets visuels (optionnel, similaire au bouton "add")
+    @FXML
+    public void buttonHoverChatbot(MouseEvent event) {
+        chatbotButton.setStyle("-fx-background-color: #4a82d1; -fx-text-fill: white; -fx-padding: 12px 24px;");
+    }
+
+    @FXML
+    public void buttonExitChatbot(MouseEvent event) {
+        chatbotButton.setStyle("-fx-background-color: #6fa3ef; -fx-text-fill: white; -fx-padding: 12px 24px;");
+    }
 
     @FXML
     public void buttonHover(MouseEvent event) {
@@ -68,6 +94,8 @@ public class Createrec implements Initializable {
         String d = desc.getText();
         LocalDate ld = date.getValue();
         CategorieReclamation categorie = categorieCombo.getValue();
+        String email = emailField.getText();
+
 
         // === CONTRÔLE DE SAISIE ===
         if (t.isEmpty() || d.isEmpty()) {
@@ -84,14 +112,23 @@ public class Createrec implements Initializable {
             showAlert("Veuillez sélectionner une catégorie.");
             return;
         }
+        if (email.isEmpty()) {
+            showAlert("Veuillez renseigner votre email.");
+            return;
+        }
+
 
         // Données par défaut
         String statut = "en attente";
-        int userId = 1;
+        User currentUser = SessionManager.getCurrentUser();
+        int userId = (currentUser != null) ? currentUser.getId() : 1;
+
         int categorieId = categorie.getId();
 
         reclamation r = new reclamation(userId, t, d, statut, ld);
         r.setCategorieId(categorieId);
+        r.setEmailUtilisateur(email); // 👈 Définir l'email
+
 
         reclamationC rc = new reclamationC();
         rc.create(r);

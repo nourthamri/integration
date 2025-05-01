@@ -39,6 +39,8 @@
             <ComboBox fx:id="categoryFilter" promptText="Catégorie" />
             <DatePicker fx:id="dateFilter" promptText="Date" />
             <Button fx:id="btnApplyFilters" text="Appliquer filtres"/>
+            <!-- Dans reclamationliste.fxml -->
+            <Button text="Exporter" onAction="#handleExport" />
          </HBox>
 
          <!-- Liste des réclamations -->

@@ -6,24 +6,72 @@ import utils.MyConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.mail.MessagingException;
 
 public class reclamationC implements IService<reclamation> {
 
     Connection cnx = MyConnection.getInstance().getConnection();
+    private EmailC emailService = new EmailC();
+
+
+
+    public void marquerCommeResolue(int idReclamation) {
+        reclamation rec = getById(idReclamation);
+        rec.setStatus("resolved");
+
+        try {
+            System.out.println("Tentative d'envoi d'email à : " + rec.getEmailUtilisateur());
+            String message = "Votre réclamation #" + idReclamation + " a été résolue.";
+            emailService.envoyerEmail(rec.getEmailUtilisateur(), "PROBLÈME RÉSOLU", message);
+            System.out.println("Email envoyé avec succès !");
+
+            // Correction ici : ajout de ) et ;
+            NotificationService.getInstance().showNotification(
+                    "Réclamation résolue",
+                    "Réclamation #" + idReclamation + " traitée !",
+                    idReclamation
+            ); // 👈 Parenthèse fermante et ;
+        } catch (MessagingException e) {
+            System.err.println("Échec d'envoi d'email : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public reclamation getById(int id) {
+        reclamation reclamation = null;
+        String query = "SELECT * FROM reclamation WHERE id = ?";
+
+        try (PreparedStatement pstmt = cnx.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                reclamation = new reclamation();
+                reclamation.setId(rs.getInt("id"));
+                reclamation.setDescription(rs.getString("description"));
+                reclamation.setStatus(rs.getString("status")); // Colonne "status", pas "statut"
+                reclamation.setDate(rs.getDate("date").toLocalDate()); // Colonne "date"
+                reclamation.setEmailUtilisateur(rs.getString("emailUtilisateur"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération : " + e.getMessage());
+        }
+        return reclamation;
+    }
 
     @Override
     public void create(reclamation r) throws SQLException {
-        String query = "INSERT INTO reclamation (user_id, titre, description, status, date, categorie_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO reclamation (user_id, titre, description, status, date, categorie_id, emailUtilisateur) VALUES (?, ?, ?, ?, ?, ?, ?)"; // 👈 Ajout de emailUtilisateur
         PreparedStatement ps = cnx.prepareStatement(query);
         ps.setInt(1, r.getId_user());
         ps.setString(2, r.getTitre());
         ps.setString(3, r.getDescription());
         ps.setString(4, r.getStatus());
         ps.setDate(5, Date.valueOf(r.getDate()));
-        ps.setInt(6, r.getCategorieId()); // 👈 ajout ici
+        ps.setInt(6, r.getCategorieId());
+        ps.setString(7, r.getEmailUtilisateur()); // 👈 Valeur de l'email
         ps.executeUpdate();
     }
-
     @Override
     public void update(reclamation r) throws SQLException {
         String sql = "UPDATE reclamation SET titre=?, description=?, status=?, date=?, categorie_id=? WHERE id=?";
@@ -60,7 +108,8 @@ public class reclamationC implements IService<reclamation> {
                     rs.getString("description"),
                     rs.getString("status"),
                     rs.getDate("date").toLocalDate(),
-                    rs.getInt("categorie_id") // 👈 ajout ici
+                    rs.getInt("categorie_id"),
+                    rs.getString("emailUtilisateur") // 👈 Correction ici
             );
             list.add(r);
         }
