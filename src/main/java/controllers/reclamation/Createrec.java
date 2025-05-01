@@ -1,4 +1,7 @@
 package controllers.reclamation;
+import utils.BadWords;
+
+
 
 import controllers.SessionManager;
 import javafx.event.ActionEvent;
@@ -16,10 +19,15 @@ import services.reclamationC;
 import services.CategorieReclamationC;
 import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
 
 public class Createrec implements Initializable {
 
@@ -89,9 +97,27 @@ public class Createrec implements Initializable {
         });
     }
 
+
+
     private void ajouterReclamation() throws SQLException {
         String t = titre.getText();
         String d = desc.getText();
+        // === VÉRIFICATION DES MOTS INAPPROPRIÉS ===
+        CompletableFuture<Boolean> titleCheck = CompletableFuture.supplyAsync(() -> BadWords.containsBadWords(t));
+        CompletableFuture<Boolean> descCheck = CompletableFuture.supplyAsync(() -> BadWords.containsBadWords(d));
+
+        try {
+            if (titleCheck.get() || descCheck.get()) {
+                showAlert("Votre réclamation contient des termes inappropriés. Merci de modifier votre texte.");
+                return;
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            System.err.println("Erreur lors de la vérification des mots inappropriés : ");
+            e.printStackTrace();
+            showAlert("Erreur de vérification du contenu. Veuillez réessayer.");
+            Thread.currentThread().interrupt(); // Préservation de l'état d'interruption
+            return;
+        }
         LocalDate ld = date.getValue();
         CategorieReclamation categorie = categorieCombo.getValue();
         String email = emailField.getText();

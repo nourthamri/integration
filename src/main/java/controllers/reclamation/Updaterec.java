@@ -1,5 +1,9 @@
 package controllers.reclamation;
 
+import utils.BadWords;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
 import models.CategorieReclamation;
 import models.reclamation;
 import javafx.collections.FXCollections;
@@ -78,6 +82,28 @@ public class Updaterec {
         }
 
         update.setOnAction(e -> {
+            String t = titre.getText();
+            String d = desc.getText();
+
+            // === VÉRIFICATION DES MOTS INAPPROPRIÉS ===
+            CompletableFuture<Boolean> titleCheck = CompletableFuture.supplyAsync(() -> BadWords.containsBadWords(t));
+            CompletableFuture<Boolean> descCheck = CompletableFuture.supplyAsync(() -> BadWords.containsBadWords(d));
+
+            try {
+            if (titleCheck.get() || descCheck.get()) {
+                showAlert("Votre réclamation contient des termes inappropriés. Merci de modifier votre texte.");
+                return;
+            }
+        } catch (InterruptedException | ExecutionException ex) {
+            System.err.println("Erreur lors de la vérification des mots inappropriés : ");
+            ex.printStackTrace();
+            showAlert("Erreur de vérification du contenu. Veuillez réessayer.");
+            Thread.currentThread().interrupt();
+            return;
+        }
+
+
+
             // === CONTRÔLE DE SAISIE ===
             if (titre.getText().isEmpty() || desc.getText().isEmpty() || status.getText().isEmpty()) {
                 showAlert("Veuillez remplir tous les champs de texte.");

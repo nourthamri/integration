@@ -1,4 +1,7 @@
 package controllers.reponse;
+import utils.BadWords;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import models.reclamation;
 import models.reponse;
@@ -56,10 +59,13 @@ public class Createrep implements Initializable {
             showAlert("Le champ 'Contenu' est obligatoire.");
             return;
         }
-
         // Contrôle de saisie : le contenu doit être suffisamment long (par exemple, au moins 10 caractères)
         if (contenuTexte.length() < 10) {
             showAlert("Le contenu de la réponse doit comporter au moins 10 caractères.");
+            return;
+        }
+        if (BadWords.containsBadWords(contenuTexte)) {
+            showAlert("Le contenu contient des mots inappropriés. Veuillez modifier votre réponse.");
             return;
         }
 
@@ -130,10 +136,12 @@ public class Createrep implements Initializable {
 
             // Vérification de l'éligibilité du contenu de la réclamation pour le remboursement
             String contenu = (reclamation.getTitre() + " " + reclamation.getDescription()).toLowerCase();
-            boolean estEligible = contenu.contains("défectueux")
+            boolean estEligible = contenu.contains("test")
                     || contenu.contains("non reçu")
                     || contenu.contains("retour")
-                    || contenu.contains("remboursement");
+                    || contenu.contains("remboursement")
+                    || contenu.contains("produit");
+
 
             if (!estEligible) {
                 System.out.println("Réclamation non eligible au remboursement.");

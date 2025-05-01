@@ -10,14 +10,33 @@ public class reclamation {
     private int categorieId;
     private String emailUtilisateur;
 
+    private boolean recCompleted;
+    private boolean reponseCompleted;
+    private boolean remboursementCompleted;
+    private boolean categorieCompleted;
+
+    // Getters/Setters pour les nouveaux attributs
+    public boolean isRecCompleted() { return recCompleted; }
+    public void setRecCompleted(boolean b) { this.recCompleted = b; }
+
+    public boolean isReponseCompleted() { return reponseCompleted; }
+    public void setReponseCompleted(boolean b) { this.reponseCompleted = b; }
+
+    public boolean isRemboursementCompleted() { return remboursementCompleted; }
+    public void setRemboursementCompleted(boolean b) { this.remboursementCompleted = b; }
+
+    public boolean isCategorieCompleted() { return categorieCompleted; }
+    public void setCategorieCompleted(boolean b) { this.categorieCompleted = b; }
+
+    // Reste du code inchangé
     public String getEmailUtilisateur() {
         return emailUtilisateur;
     }
+
     public void setEmailUtilisateur(String emailUtilisateur) {
         this.emailUtilisateur = emailUtilisateur;
     }
 
-    // Getters et Setters
     public int getCategorieId() {
         return categorieId;
     }
@@ -69,9 +88,10 @@ public class reclamation {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
     public reclamation() {}
 
-    // Constructeur complet avec categorieId
+    // Constructeurs existants (inchangés)
     public reclamation(int id, int id_user, String titre, String description, String status, LocalDate date, int categorieId, String emailUtilisateur) {
         this.id = id;
         this.user_id = id_user;
@@ -83,7 +103,6 @@ public class reclamation {
         this.emailUtilisateur = emailUtilisateur;
     }
 
-    // Constructeur sans ID (ex: pour insertion) avec categorieId
     public reclamation(int id_user, String titre, String description, String status, LocalDate date, int categorieId) {
         this.user_id = id_user;
         this.titre = titre;
@@ -93,7 +112,6 @@ public class reclamation {
         this.categorieId = categorieId;
     }
 
-    // Constructeurs existants (si tu veux les garder aussi)
     public reclamation(int id, int id_user, String titre, String description, String status, LocalDate date) {
         this.id = id;
         this.user_id = id_user;
@@ -102,6 +120,7 @@ public class reclamation {
         this.status = status;
         this.date = date;
     }
+
     public reclamation(int userId) {
         this.user_id = userId;
         this.status = "en attente";
@@ -129,7 +148,7 @@ public class reclamation {
                 '}';
     }
 
-    public void setUser_id(int id_user) {  this.user_id = id_user;
+    public void setUser_id(int id_user) {
+        this.user_id = id_user;
     }
-
-    }
+}

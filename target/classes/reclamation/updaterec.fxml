@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.reclamation.Updaterec"
+            stylesheets="@../css/modern-styles.css"
+            prefWidth="900.0" prefHeight="600.0">
+
+    <!-- Barre latérale -->
+    <left>
+        <fx:include source="/sidebar.fxml"/> <!-- Chemin relatif vers la sidebar -->
+    </left>
+
+    <!-- Contenu principal -->
+    <center>
+        <VBox styleClass="container" spacing="24" alignment="TOP_CENTER"
+              BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="24.0" right="24.0" bottom="24.0" left="24.0"/>
+            </padding>
+
+            <!-- Titre -->
+            <Label text="Modifier la réclamation" styleClass="title"/>
+
+            <!-- Formulaire -->
+            <VBox spacing="16">
+                <VBox spacing="8">
+                    <Label text="Titre" styleClass="subtitle"/>
+                    <TextField fx:id="titre" promptText="Entrez le titre"/>
+                </VBox>
+
+                <VBox spacing="8">
+                    <Label text="Description" styleClass="subtitle"/>
+                    <TextArea fx:id="desc" promptText="Entrez la description"
+                              prefRowCount="3" wrapText="true"/>
+                </VBox>
+
+                <VBox spacing="8">
+                    <Label text="Status" styleClass="subtitle"/>
+                    <TextField fx:id="status" promptText="Entrez le status"/>
+                </VBox>
+
+                <VBox spacing="8">
+                    <Label text="Date" styleClass="subtitle"/>
+                    <DatePicker fx:id="date" promptText="Sélectionnez une date"/>
+                </VBox>
+
+                <VBox spacing="8">
+                    <Label text="Catégorie" styleClass="subtitle"/>
+                    <ComboBox fx:id="categorieCombo" promptText="Choisir une catégorie" maxWidth="Infinity"/>
+                </VBox>
+            </VBox>
+
+            <!-- Bouton -->
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button fx:id="update" text="Mettre à jour la réclamation"
+                    onMouseEntered="#buttonHover" onMouseExited="#buttonExit"
+                    maxWidth="Infinity"/>
+        </VBox>
+    </center>
+</BorderPane>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane prefWidth="800.0" prefHeight="600.0" 
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.remboursement.listeremboursement"
+            stylesheets="@../css/modern-styles.css">
+    <children>
+        <VBox styleClass="container" spacing="24"
+              AnchorPane.topAnchor="24.0" 
+              AnchorPane.leftAnchor="24.0" 
+              AnchorPane.rightAnchor="24.0" 
+              AnchorPane.bottomAnchor="24.0">
+            <padding>
+                <Insets top="24" right="24" bottom="24" left="24"/>
+            </padding>
+            
+            <children>
+                <!-- Header -->
+                <HBox spacing="16" alignment="CENTER_LEFT">
+                    <Label text="Liste des remboursements" styleClass="title" HBox.hgrow="ALWAYS"/>
+                    <HBox spacing="8" alignment="CENTER_RIGHT">
+                        <Button fx:id="btnRefresh" styleClass="refresh-button"
+                                text="🔄 Rafraîchir"/>
+                        <Button fx:id="btnAdd" text="+ Nouveau remboursement"
+                                styleClass="button-success"/>
+                    </HBox>
+                </HBox>
+                
+                <!-- Liste des remboursements -->
+                <ListView fx:id="listViewRemboursements" VBox.vgrow="ALWAYS"/>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
