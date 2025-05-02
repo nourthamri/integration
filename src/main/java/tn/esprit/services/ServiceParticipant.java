@@ -13,13 +13,14 @@ public class ServiceParticipant implements IService<Participant> {
     public ServiceParticipant() {
     }
 
-    public void ajouter_t(Participant participant) throws SQLException {
+    public boolean ajouter_t(Participant participant) throws SQLException {
         String sql = "INSERT INTO participant (id_user,id_event) VALUES ( ?, ?)";
         PreparedStatement statement = this.connection.prepareStatement(sql);
         statement.setInt(1, participant.getId_user());
         statement.setInt(2, participant.getId_event());
         statement.executeUpdate();
         System.out.println("bien ajouté");
+        return false;
     }
 
     public void modifier_t(Participant participant) throws SQLException {
@@ -117,7 +118,7 @@ public class ServiceParticipant implements IService<Participant> {
     }
 
     public String getUserNameById(int idUser) throws SQLException {
-        String sql = "SELECT nom, prenom FROM user WHERE id_user = ?";
+        String sql = "SELECT username, lastname FROM user WHERE id_user = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, idUser);
         ResultSet resultSet = statement.executeQuery();

@@ -1,53 +1,50 @@
 package tn.esprit.controllers;
 
+import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import netscape.javascript.JSObject;
 import tn.esprit.entities.Event;
 import tn.esprit.services.ServiceEvent;
+
 import java.io.File;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class ModifierEventController {
 
-    @FXML
-    private DatePicker datetf;
-    @FXML
-    private Button modifbtn;
-    @FXML
-    private Button annulerbtn;
-    @FXML
-    private TextField nametxtfield;
-    @FXML
-    private TextField lieutxtfield;
-    @FXML
-    private TextField desctxtfield;
-    @FXML
-    private ImageView imageview;
-    @FXML
-    private ComboBox hourComboBox;
-    @FXML
-    private ComboBox minuteComboBox;
-    @FXML
-    private Button btnChoisirImage;
+    @FXML private DatePicker datetf;
+    @FXML private Button modifbtn;
+    @FXML private Button annulerbtn;
+    @FXML private TextField nametxtfield;
+    @FXML private TextField desctxtfield;
+    @FXML private ImageView imageview;
+    @FXML private ComboBox<String> hourComboBox;
+    @FXML private ComboBox<String> minuteComboBox;
+    @FXML private Button btnChoisirImage;
+    @FXML private WebView mapView;
+
+    private Event eventSelected;
+    private final ServiceEvent serviceEvent = new ServiceEvent();
     private AfficherEventController afficherEventController;
-    @FXML
-    private TextField txtImg;
-    @FXML
-    private Button btnreturn;
+    private DetailsEventController detailsEventController;
+
+    private double selectedLat;
+    private double selectedLng;
 
     public void setAfficherEventController(AfficherEventController controller) {
         this.afficherEventController = controller;
     }
 
-    private Event eventSelected;
-    private final ServiceEvent serviceEvent = new ServiceEvent();
-
-
+    public void setDetailsEventController(DetailsEventController controller) {
+        this.detailsEventController = controller;
+    }
 
     @FXML
     public void initialize() {
@@ -61,102 +58,98 @@ public class ModifierEventController {
         for (int i = 0; i < 60; i++) {
             minuteComboBox.getItems().add(String.format("%02d", i));
         }
+
+        WebEngine engine = mapView.getEngine();
+        engine.setJavaScriptEnabled(true);
+        JavaBridge bridge = new JavaBridge();
+
+        engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+            if (newState == Worker.State.SUCCEEDED && eventSelected != null) {
+                JSObject window = (JSObject) engine.executeScript("window");
+                window.setMember("java", bridge);
+                engine.executeScript("setMapCenter(" + eventSelected.getLatitude() + "," + eventSelected.getLongitude() + ")");
+            }
+        });
+
+        String mapFilePath = getClass().getResource("/map.html").toExternalForm();
+        engine.load(mapFilePath);
     }
 
     public void setEvent(Event event) {
         this.eventSelected = event;
         if (event != null) {
             nametxtfield.setText(event.getNom());
-            lieutxtfield.setText(event.getLieu());
-            desctxtfield.setText(event.getDesc());
-            txtImg.setText(event.getImage());
+            desctxtfield.setText(event.getDescription());
             datetf.setValue(event.getDate().toLocalDate());
-
-
             hourComboBox.setValue(String.format("%02d", event.getDate().getHour()));
             minuteComboBox.setValue(String.format("%02d", event.getDate().getMinute()));
+
+            selectedLat = event.getLatitude();
+            selectedLng = event.getLongitude();
+
+            if (event.getImage() != null && !event.getImage().isEmpty()) {
+                imageview.setImage(new Image("file:" + event.getImage()));
+            }
         }
     }
 
     private void choisirImage() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
-        fileChooser.setTitle("Choisir une image pour l'event");
+        fileChooser.setTitle("Choisir une image pour l'événement");
 
-        File selectedFile = fileChooser.showOpenDialog(txtImg.getScene().getWindow());
-
+        File selectedFile = fileChooser.showOpenDialog(imageview.getScene().getWindow());
         if (selectedFile != null) {
-
-            txtImg.setText(selectedFile.getAbsolutePath());
-
-
-            Image image = new Image(selectedFile.toURI().toString());
-            imageview.setImage(image);
+            imageview.setImage(new Image(selectedFile.toURI().toString()));
+            eventSelected.setImage(selectedFile.getAbsolutePath());
         } else {
-            afficherAlerte(Alert.AlertType.WARNING, "Aucune sélection", "Aucune image n'a été sélectionnée !");
+            afficherAlerte(Alert.AlertType.WARNING, "Aucune image", "Aucune image sélectionnée.");
         }
     }
+
     private void modifierEvent() {
         if (eventSelected == null) {
-            afficherAlerte(Alert.AlertType.ERROR, "Erreur", "Aucun event sélectionné !");
+            afficherAlerte(Alert.AlertType.ERROR, "Erreur", "Aucun événement sélectionné !");
             return;
         }
 
         String nom = nametxtfield.getText();
-        String lieu = lieutxtfield.getText();
         String description = desctxtfield.getText();
-        String img = txtImg.getText();
 
-
-        if (nom.isEmpty() || lieu.isEmpty() || description.isEmpty() || img.isEmpty()) {
+        if (nom.isEmpty() || description.isEmpty()) {
             afficherAlerte(Alert.AlertType.ERROR, "Erreur", "Tous les champs sont obligatoires !");
             return;
         }
 
-
-        if (!Character.isUpperCase(lieu.charAt(0))) {
-            afficherAlerte(Alert.AlertType.ERROR, "Erreur", "Le lieu doit commencer par une majuscule !");
+        if (nom.length() < 3 || description.length() < 10) {
+            afficherAlerte(Alert.AlertType.ERROR, "Validation", "Nom ou description trop court.");
             return;
         }
 
-
-        if (nom.length() < 3) {
-            afficherAlerte(Alert.AlertType.ERROR, "Erreur", "Le nom doit comporter au moins 3 caractères.");
-            return;
-        }
-
-        if (description.length() < 10) {
-            afficherAlerte(Alert.AlertType.ERROR, "Erreur", "La description doit comporter au moins 10 caractères.");
-            return;
-        }
-
-        int hour = Integer.parseInt(hourComboBox.getValue().toString());
-        int minute = Integer.parseInt(minuteComboBox.getValue().toString());
+        int hour = Integer.parseInt(hourComboBox.getValue());
+        int minute = Integer.parseInt(minuteComboBox.getValue());
         LocalDateTime dateTime = datetf.getValue().atTime(hour, minute);
-        LocalDateTime today = LocalDateTime.now();
-        if (dateTime.isBefore(today)) {
-            afficherAlerte(Alert.AlertType.WARNING, "Avertissement", "Vous ne pouvez pas planifier un event pour une date passée.");
+
+        if (dateTime.isBefore(LocalDateTime.now())) {
+            afficherAlerte(Alert.AlertType.WARNING, "Date invalide", "La date est dans le passé.");
             return;
         }
+
         eventSelected.setNom(nom);
-        eventSelected.setLieu(lieu);
-        eventSelected.setDesc(description);
-        eventSelected.setImage(img);
+        eventSelected.setDescription(description);
+        eventSelected.setLatitude(selectedLat);
+        eventSelected.setLongitude(selectedLng);
         eventSelected.setDate(dateTime);
 
         try {
             serviceEvent.modifier_t(eventSelected);
-            afficherAlerte(Alert.AlertType.INFORMATION, "Succès", "event modifié avec succès !");
+            afficherAlerte(Alert.AlertType.INFORMATION, "Succès", "Événement modifié !");
             fermerFenetre();
-            if (afficherEventController != null) {
-                afficherEventController.rafraichirAffichage();
-            }
-
+            if (afficherEventController != null) afficherEventController.rafraichirAffichage();
         } catch (SQLException e) {
-            afficherAlerte(Alert.AlertType.ERROR, "Erreur SQL", "Impossible de modifier le event : " + e.getMessage());
+            afficherAlerte(Alert.AlertType.ERROR, "Erreur SQL", "Modification échouée : " + e.getMessage());
         }
     }
-
 
     private void afficherAlerte(Alert.AlertType type, String titre, String message) {
         Alert alert = new Alert(type);
@@ -165,33 +158,24 @@ public class ModifierEventController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    private DetailsEventController detailsEventController;
 
     private void fermerFenetre() {
         if (detailsEventController != null) {
             detailsEventController.setEvent(eventSelected);
-        } else {
-            System.out.println("⚠️ `detailsEventController` est NULL, impossible de mettre à jour l'affichage !");
         }
-
         Stage stage = (Stage) modifbtn.getScene().getWindow();
         stage.close();
     }
 
-
-    @FXML
     private void annulerModification() {
-        Stage stage = (Stage) annulerbtn.getScene().getWindow();
-        stage.close();
-    }
-    public void setDetailsEventController(DetailsEventController controller) {
-        this.detailsEventController = controller;
-    }
-    @FXML
-    private void handleReturnButtonClick() {
-
-        Stage stage = (Stage) btnreturn.getScene().getWindow();
-        stage.close();
+        fermerFenetre();
     }
 
+    public class JavaBridge {
+        public void onLocationSelected(String placeName, double lat, double lng) {
+            selectedLat = lat;
+            selectedLng = lng;
+            System.out.println("Coordonnées sélectionnées : " + placeName + " (" + lat + ", " + lng + ")");
+        }
+    }
 }

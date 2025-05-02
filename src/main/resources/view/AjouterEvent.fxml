@@ -1,91 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/17.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="tn.esprit.controllers.AjouterEventController"
-            prefHeight="600.0" prefWidth="800.0"
-            styleClass="root"
-            stylesheets="@../styles/style.css">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="root" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AjouterEventController">
 
    <!-- Title Section -->
-   <HBox layoutX="40.0" layoutY="20.0" spacing="15.0">
+   <HBox alignment="CENTER_LEFT" layoutX="40.0" layoutY="20.0" spacing="15.0">
       <ImageView fitHeight="60.0" fitWidth="60.0" preserveRatio="true">
-         <Image url="@../img/ajouter-de-la-musique.png"/>
+         <Image url="@../img/ajouter-de-la-musique.png" />
       </ImageView>
       <VBox>
-         <Label text="Ajouter Événement" styleClass="title_page">
+         <Label styleClass="title_page" text="Ajouter Événement">
             <font>
-               <Font name="Century Gothic Bold" size="26.0"/>
+               <Font name="Century Gothic Bold" size="26.0" />
             </font>
          </Label>
-         <Label text="Ajoutez un nouvel événement à la liste" styleClass="subtitle">
+         <Label styleClass="subtitle" text="Ajoutez un nouvel événement à la liste">
             <font>
-               <Font name="Century Gothic Italic" size="16.0"/>
+               <Font name="Century Gothic Italic" size="16.0" />
             </font>
          </Label>
       </VBox>
    </HBox>
 
    <!-- Form Section -->
-   <VBox layoutX="50.0" layoutY="120.0" spacing="15.0">
+   <VBox layoutX="50.0" layoutY="100.0" spacing="15.0">
       <!-- Nom -->
-      <HBox spacing="20.0">
-         <Label text="Nom d'événement" prefWidth="150.0" styleClass="form-label"/>
-         <TextField fx:id="nametxtfield" promptText="Entrer le nom de l'événement" prefWidth="300.0"/>
+      <HBox alignment="CENTER_LEFT" spacing="20.0">
+         <Label prefWidth="150.0" styleClass="form-label" text="Nom d'événement" />
+         <TextField fx:id="nametxtfield" prefWidth="300.0" promptText="Entrer le nom de l'événement" />
       </HBox>
 
-      <!-- Lieu -->
-      <HBox spacing="20.0">
-         <Label text="Lieu d'événement" prefWidth="150.0" styleClass="form-label"/>
-         <TextField fx:id="lieutxtfield" promptText="Entrer le lieu" prefWidth="300.0"/>
+      <!-- Map Location -->
+      <HBox alignment="CENTER_LEFT" spacing="20.0">
+         <Label prefWidth="150.0" styleClass="form-label" text="Lieu d'événement" />
+         <WebView fx:id="mapView" prefHeight="300.0" prefWidth="600.0" />
       </HBox>
 
       <!-- Description -->
-      <HBox spacing="20.0">
-         <Label text="Description" prefWidth="150.0" styleClass="form-label"/>
-         <TextField fx:id="desctxtfield" promptText="Entrer une description" prefWidth="300.0"/>
+      <HBox alignment="CENTER_LEFT" spacing="20.0">
+         <Label prefWidth="150.0" styleClass="form-label" text="Description" />
+         <TextField fx:id="desctxtfield" prefWidth="300.0" promptText="Entrer une description" />
       </HBox>
 
       <!-- Image -->
-      <HBox spacing="20.0">
-         <Label text="Image" prefWidth="150.0" styleClass="form-label"/>
-         <VBox spacing="5.0">
-            <Button fx:id="btnChoisirImage" text="Choisir Image" styleClass="button-primary"/>
-            <ImageView fx:id="imageview" fitWidth="150.0" fitHeight="100.0" preserveRatio="true"/>
+      <HBox alignment="CENTER_LEFT" spacing="20.0">
+         <Label prefWidth="150.0" styleClass="form-label" text="Image" />
+         <VBox alignment="CENTER" prefHeight="27.0" prefWidth="117.0" spacing="5.0">
+            <Button fx:id="btnChoisirImage" alignment="TOP_LEFT" prefHeight="0.0" prefWidth="117.0" styleClass="button-primary" text="Choisir Image" textAlignment="JUSTIFY" />
          </VBox>
+         <ImageView fx:id="imageview" fitHeight="100.0" fitWidth="150.0" preserveRatio="true" />
       </HBox>
 
       <!-- Date & Time -->
-      <HBox spacing="20.0" alignment="CENTER_LEFT">
-         <Label text="Date" prefWidth="150.0" styleClass="form-label"/>
-         <DatePicker fx:id="datetf"/>
-         <ComboBox fx:id="hourComboBox" promptText="HH" prefWidth="70"/>
-         <ComboBox fx:id="minuteComboBox" promptText="MM" prefWidth="70"/>
+      <HBox alignment="CENTER_LEFT" spacing="20.0">
+         <Label prefWidth="150.0" styleClass="form-label" text="Date" />
+         <DatePicker fx:id="datetf" prefHeight="54.0" prefWidth="207.0" promptText="Sélectionnez la date" />
+         <ComboBox fx:id="hourComboBox" prefHeight="62.0" prefWidth="103.0" promptText="HH" />
+         <ComboBox fx:id="minuteComboBox" prefHeight="62.0" prefWidth="110.0" promptText="MM" />
       </HBox>
    </VBox>
 
    <!-- Buttons -->
-   <HBox layoutX="250.0" layoutY="520.0" spacing="20.0">
-      <Button fx:id="ajouterbtn" text="Ajouter" styleClass="button-success" prefWidth="120"/>
-      <Button fx:id="annulerbtn" text="Annuler" styleClass="btnreturn" prefWidth="120"/>
-   </HBox>
+   <HBox alignment="CENTER" layoutX="250.0" layoutY="520.0" spacing="20.0" />
 
    <!-- Return Button -->
-   <Button fx:id="btnreturn" layoutX="5.0" layoutY="10.0"
-           onAction="#handleReturnButtonClick"
-           styleClass="btnreturn">
+   <Button fx:id="btnreturn" layoutX="5.0" layoutY="10.0" onAction="#handleReturnButtonClick" styleClass="btnreturn">
       <graphic>
          <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
             <image>
-               <Image url="@../img/return-104.png"/>
+               <Image url="@../img/return-104.png" />
             </image>
          </ImageView>
       </graphic>
    </Button>
+   <Button fx:id="annulerbtn" layoutX="690.0" layoutY="739.0" prefWidth="120" styleClass="button-annul" text="Annuler" />
+   <Button fx:id="ajouterbtn" layoutX="570.0" layoutY="739.0" prefWidth="120" styleClass="button-success" text="Ajouter" />
 </AnchorPane>
-

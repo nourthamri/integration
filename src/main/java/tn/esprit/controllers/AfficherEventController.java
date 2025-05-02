@@ -165,6 +165,7 @@ public class AfficherEventController {
         }
     }
 
+
     public void rafraichirAffichage() {
         try {
             List<Event> events = serviceevent.afficher_t(); // Calls service to refresh the list.

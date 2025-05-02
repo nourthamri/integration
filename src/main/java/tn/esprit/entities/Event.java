@@ -1,39 +1,52 @@
 package tn.esprit.entities;
 
-
 import java.time.LocalDateTime;
 
 public class Event {
-    String nom;
-    String image;
-    String desc;
-    String lieu;
-    int id_event;
-    LocalDateTime date;
+    private int id_event;
+    private String nom;
+    private String image;
+    private String description;
+    private LocalDateTime date;
+    private double latitude;
+    private double longitude;
 
-    public Event(String nom, String image, String desc, String lieu, LocalDateTime date) {
+
+    // Constructeur vide (requis pour certaines opérations de mapping)
+    public Event() {}
+
+    // Constructeur sans ID (utilisé pour les insertions)
+    public Event(String nom, String image, String description, LocalDateTime date, double latitude, double longitude) {
         this.nom = nom;
         this.image = image;
-        this.desc = desc;
-        this.lieu = lieu;
+        this.description = description;
         this.date = date;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public Event(int id, String nom, String image, String desc, String lieu, LocalDateTime date) {
+    // Constructeur avec ID (utilisé pour les sélections depuis la DB)
+    public Event(int id_event, String nom, String image, String description, LocalDateTime date, double latitude, double longitude) {
+        this.id_event = id_event;
         this.nom = nom;
         this.image = image;
-        this.desc = desc;
-        this.id_event = id;
-        this.lieu = lieu;
+        this.description = description;
         this.date = date;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public Event() {
+    // Getters et Setters
+    public int getId_event() {
+        return id_event;
+    }
 
+    public void setId_event(int id_event) {
+        this.id_event = id_event;
     }
 
     public String getNom() {
-        return this.nom;
+        return nom;
     }
 
     public void setNom(String nom) {
@@ -41,46 +54,57 @@ public class Event {
     }
 
     public String getImage() {
-        return this.image;
+        return image;
     }
 
     public void setImage(String image) {
         this.image = image;
     }
 
-    public String getDesc() {
-        return this.desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDateTime getDate() {
-        return this.date;
-    }
-
-    public int getId_event() {
-        return this.id_event;
-    }
-
-    public String getLieu() {
-        return this.lieu;
-    }
-
-    public void setLieu(String lieu) {
-        this.lieu = lieu;
-    }
-
-    public void setId_event(int id_event) {
-        this.id_event = id_event;
+        return date;
     }
 
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public String toString() {
-        return "event{id_event=" + this.id_event + ",nom='" + this.nom + "', image='" + this.image + "', desc='" + this.desc + "', lieu='" + this.lieu + "', date=" + this.date + "}";
+    public double getLatitude() {
+        return latitude;
     }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id_event=" + id_event +
+                ", nom='" + nom + '\'' +
+                ", image='" + image + '\'' +
+                ", description='" + description + '\'' +
+                ", date=" + date +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
+
+
 }

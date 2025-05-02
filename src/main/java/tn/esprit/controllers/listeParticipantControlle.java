@@ -63,7 +63,7 @@ public class listeParticipantControlle implements Initializable {
                         setText("Erreur chargement nom utilisateur");
                     }
                 }
-                String role ="Amin" ;
+                String role ="Admin" ;
 
                 if (role == null || !role.equals("Admin")) {
                     btnsupprimerParticipants.setDisable(true);

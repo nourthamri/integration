@@ -1,67 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="root" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.ModifierEventController">
 
-    <AnchorPane layoutX="10.0" prefHeight="100.0" prefWidth="258.0">
-        <Label layoutX="83.0" layoutY="25.0" prefHeight="74.0" prefWidth="442.0" styleClass="title_page" stylesheets="@../styles/style.css" text="modifier Evenement">
-            <font>
-                <Font name="Century Gothic Bold" size="26.0" />
-            </font>
-        </Label>
-      <ImageView fitHeight="31.0" fitWidth="30.0" layoutX="21.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../img/return-104.png" />
-         </image>
-      </ImageView>
-      <Button fx:id="btnreturn" alignment="CENTER" contentDisplay="TOP" layoutX="15.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleReturnButtonClick" prefHeight="36.0" prefWidth="41.0" styleClass="btnreturn" stylesheets="@../styles/style.css" />
-    </AnchorPane>
-    <Label layoutX="46.0" layoutY="196.0" prefHeight="31.0" prefWidth="192.0" text="Nom d'évenement">
-        <font>
-            <Font name="System Bold" size="21.0" />
-        </font>
-    </Label>
-    <Label layoutX="46.0" layoutY="236.0" prefHeight="31.0" prefWidth="180.0" text="Lieu d'évenement">
-        <font>
-            <Font name="System Bold" size="21.0" />
-        </font>
-    </Label>
-    <Label layoutX="46.0" layoutY="277.0" prefHeight="31.0" prefWidth="155.0" text="Description">
-        <font>
-            <Font name="System Bold" size="21.0" />
-        </font>
-    </Label>
-    <TextField fx:id="nametxtfield" layoutX="258.0" layoutY="196.0" prefHeight="31.0" prefWidth="277.0" promptText="ENTRER LE NOM D'EVENEMENT" />
-    <TextField fx:id="lieutxtfield" layoutX="258.0" layoutY="236.0" prefHeight="31.0" prefWidth="277.0" promptText="ENTRER LE LIEU" />
-    <TextField fx:id="desctxtfield" layoutX="258.0" layoutY="277.0" prefHeight="31.0" prefWidth="277.0" promptText="ENTRER UN DESCRIPTION" />
-    <Button fx:id="btnChoisirImage" layoutX="547.0" layoutY="322.0" prefHeight="25.0" prefWidth="277.0" styleClass="add_team" stylesheets="@../styles/style.css" text="Choisir Image" />
+    <!-- Title Section -->
+    <HBox alignment="CENTER_LEFT" layoutX="40.0" layoutY="20.0" spacing="15.0">
+        <ImageView fitHeight="60.0" fitWidth="60.0" preserveRatio="true">
+            <Image url="@../img/modifyicon.png" />
+        </ImageView>
+        <VBox>
+            <Label styleClass="title_page" text="Modifier Événement">
+                <font>
+                    <Font name="Century Gothic Bold" size="26.0" />
+                </font>
+            </Label>
+            <Label styleClass="subtitle" text="Modifiez un événement existant">
+                <font>
+                    <Font name="Century Gothic Italic" size="16.0" />
+                </font>
+            </Label>
+        </VBox>
+    </HBox>
 
+    <!-- Form Section -->
+    <VBox layoutX="50.0" layoutY="100.0" spacing="15.0">
+        <!-- Nom -->
+        <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <Label prefWidth="150.0" styleClass="form-label" text="Nom d'événement" />
+            <TextField fx:id="nametxtfield" prefWidth="300.0" promptText="Entrer le nom de l'événement" />
+        </HBox>
 
-    <ImageView fx:id="imageview" fitHeight="100.0" fitWidth="150.0" layoutX="313.0" layoutY="406.0" preserveRatio="true" />
-    <Button fx:id="modifbtn" layoutX="259.0" layoutY="516.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="277.0" styleClass="add_team" stylesheets="@../styles/style.css" text="modifier" />
-    <Button fx:id="annulerbtn" layoutX="258.0" layoutY="565.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="277.0" styleClass="add_team" stylesheets="@../styles/style.css" text="ANNULER" />
-    <Label layoutX="46.0" layoutY="319.0" prefHeight="31.0" prefWidth="155.0" text="Entrer image">
-        <font>
-            <Font name="System Bold" size="21.0" />
-        </font>
-    </Label>
-    <Label layoutX="46.0" layoutY="367.0" prefHeight="31.0" prefWidth="155.0" text="Entrer date">
-        <font>
-            <Font name="System Bold" size="21.0" />
-        </font>
-    </Label>
-    <DatePicker fx:id="datetf" layoutX="261.0" layoutY="370.0" />
-    <ComboBox fx:id="hourComboBox" layoutX="338.0" layoutY="421.0" />
-    <ComboBox fx:id="minuteComboBox" layoutX="402.0" layoutY="421.0" />
-   <TextField fx:id="txtImg" layoutX="258.0" layoutY="319.0" prefHeight="31.0" prefWidth="277.0" promptText="ENTRER UN DESCRIPTION" />
+        <!-- Map Location -->
+        <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <Label prefWidth="150.0" styleClass="form-label" text="Lieu d'événement" />
+            <WebView fx:id="mapView" prefHeight="300.0" prefWidth="600.0" />
+        </HBox>
+
+        <!-- Description -->
+        <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <Label prefWidth="150.0" styleClass="form-label" text="Description" />
+            <TextField fx:id="desctxtfield" prefWidth="300.0" promptText="Entrer une description" />
+        </HBox>
+
+        <!-- Image -->
+        <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <Label prefWidth="150.0" styleClass="form-label" text="Image" />
+            <VBox alignment="CENTER" prefHeight="27.0" prefWidth="117.0" spacing="5.0">
+                <Button fx:id="btnChoisirImage" alignment="TOP_LEFT" prefWidth="117.0" styleClass="button-primary" text="Choisir Image" />
+            </VBox>
+            <ImageView fx:id="imageview" fitHeight="100.0" fitWidth="150.0" preserveRatio="true" />
+        </HBox>
+
+        <!-- Date & Time -->
+        <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <Label prefWidth="150.0" styleClass="form-label" text="Date" />
+            <DatePicker fx:id="datetf" prefHeight="54.0" prefWidth="207.0" promptText="Sélectionnez la date" />
+            <ComboBox fx:id="hourComboBox" prefHeight="62.0" prefWidth="103.0" promptText="HH" />
+            <ComboBox fx:id="minuteComboBox" prefHeight="62.0" prefWidth="110.0" promptText="MM" />
+        </HBox>
+    </VBox>
+
+    <!-- Buttons -->
+    <Button fx:id="modifbtn" layoutX="570.0" layoutY="739.0" prefWidth="120" styleClass="button-success" text="Modifier" />
+    <Button fx:id="annulerbtn" layoutX="690.0" layoutY="739.0" prefWidth="120" styleClass="button-annul" text="Annuler" />
 
 </AnchorPane>

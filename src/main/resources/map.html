@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Carte</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+
+        html, body, #map {
+            height: 100%;
+            margin: 0;
+        }
+        #searchContainer {
+            padding: 10px;
+            background: white;
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="searchContainer">
+    <input type="text" id="locationInput" placeholder="Entrez un lieu" />
+    <button id="searchButton">Chercher</button>
+</div>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([36.8, 10.18], 7); // Centré sur la Tunisie
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    var marker;
+
+    map.on('click', function(e) {
+        const lat = e.latlng.lat;
+        const lng = e.latlng.lng;
+
+        if (marker) {
+            map.removeLayer(marker);
+        }
+        marker = L.marker([lat, lng]).addTo(map);
+
+        // Géocodage inverse pour obtenir le nom du lieu
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
+            .then(response => response.json())
+            .then(data => {
+                const displayName = data.display_name || 'Lieu inconnu';
+                if (window.java && typeof window.java.onLocationSelected === 'function') {
+                    window.java.onLocationSelected(displayName, lat, lng);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors du géocodage inverse :', error);
+                if (window.java && typeof window.java.onLocationSelected === 'function') {
+                    window.java.onLocationSelected('Lieu inconnu', lat, lng);
+                }
+            });
+    });
+
+    // Function to search for location
+    function searchLocation() {
+        var location = document.getElementById('locationInput').value;
+        if (location) {
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        var loc = data[0];
+                        var lat = loc.lat;
+                        var lon = loc.lon;
+
+                        if (marker) {
+                            map.removeLayer(marker);
+                        }
+                        marker = L.marker([lat, lon]).addTo(map);
+                        map.setView([lat, lon], 13);
+                        if (window.java && typeof window.java.onLocationSelected === 'function') {
+                            window.java.onLocationSelected(loc.display_name, lat, lon);
+
+                        }
+                    } else {
+                        alert('Lieu introuvable');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Erreur lors de la recherche du lieu');
+                });
+        }
+    }
+
+    document.getElementById('searchButton').addEventListener('click', searchLocation);
+
+    window.onload = function() {
+        initMap();
+    };
+</script>
+</body>
+</html>

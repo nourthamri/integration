@@ -91,6 +91,9 @@
 .button-success {
     -fx-background-color: -fx-success;
     -fx-text-fill: white;
+}.button-annul {
+    -fx-background-color:-fx-warning ;
+    -fx-text-fill: white;
 }
 
 .button-warning {
