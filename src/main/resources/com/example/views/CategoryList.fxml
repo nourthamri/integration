@@ -3,14 +3,14 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="piproject.controllers.CategoryListController"
-            stylesheets="@style.css" styleClass="root" prefHeight="600.0" prefWidth="800.0">
+            stylesheets="@style.css" styleClass="root" prefHeight="600.0" prefWidth="900.0">
     <top>
         <Label text="Category List" BorderPane.alignment="CENTER" styleClass="title"/>
     </top>
     <center>
-        <TableView fx:id="categoryTable" styleClass="table-view" prefWidth="800" prefHeight="450">
+        <TableView fx:id="categoryTable" styleClass="table-view" prefWidth="400" prefHeight="350">
             <columns>
-                <TableColumn fx:id="idCol" text="ID" styleClass="table-column" prefWidth="150"/>
+
                 <TableColumn fx:id="nameCol" text="Name" styleClass="table-column" prefWidth="250"/>
                 <TableColumn fx:id="descCol" text="Description" styleClass="table-column" prefWidth="350"/>
                 <TableColumn fx:id="actionCol" text="Actions" styleClass="table-column" prefWidth="200"/>

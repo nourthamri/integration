@@ -17,8 +17,22 @@
 .root {
     -fx-background-color: -fx-background;
     -fx-font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    -fx-background-image: url("/com/example/resources/image.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+}
+/* PDF Export Button */
+.button-success {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 15;
 }
 
+.button-success:hover {
+    -fx-background-color: #218838;
+}
 /* Text Styles */
 .title {
     -fx-font-size: 28px;
@@ -126,4 +140,48 @@
 
 .refresh-button:hover {
     -fx-background-color: #e0e7ff;
+}
+.button-primary {
+    -fx-background-color: #4CAF50;  /* Green */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+.button-primary:hover {
+    -fx-background-color: #45a049;
+}
+.button-warning {
+    -fx-background-color: #f39c12;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.button-warning:hover {
+    -fx-background-color: #e67e22;
+}
+/* Search field styling */
+.search-field {
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: #ccc;
+    -fx-prompt-text-fill: #999;
+    -fx-padding: 5 10 5 10;
+    -fx-font-size: 14px;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-background-color: -fx-text-box-border, -fx-control-inner-background;
+}
+
+.search-field:focused {
+    -fx-border-color: #4d90fe;
+    -fx-background-color: -fx-focus-color, -fx-control-inner-background;
+}
+
+/* Optional: Add search icon */
+.search-field .left {
+    -fx-padding: 0 5 0 5;
+}
+/* Add to your style.css */
+#translatedDescription {
+    -fx-text-fill: #555;
+    -fx-font-style: italic;
+    -fx-padding: 5 0 5 0;
 }

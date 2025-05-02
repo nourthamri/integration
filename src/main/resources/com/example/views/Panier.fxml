@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="piproject.controllers.PanierController"
+            prefWidth="800" prefHeight="600"
+            stylesheets="@style.css"
+            styleClass="root">
+
+    <VBox spacing="20" style="-fx-padding: 20;" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
+          styleClass="container">
+
+        <Label text="🛒 Mon Panier" styleClass="title"/>
+
+        <!-- List of cart items -->
+        <ListView fx:id="panierListView" styleClass="list-view" prefHeight="400"/>
+
+        <!-- Total and control buttons -->
+        <HBox spacing="20" alignment="CENTER_RIGHT">
+            <Label text="Total :" styleClass="total-label"/>
+            <Label fx:id="totalLabel" text="0.00 DT" styleClass="total-value"/>
+            <Button text="🧹 Vider le Panier" onAction="#onClearPanier" styleClass="button-error"/>
+            <Button fx:id="exportPdfButton" text="📄 Exporter PDF" styleClass="button-success"/>
+            <Button fx:id="payButton" text="💳 Payer avec Flousi" onAction="#handlePayment" styleClass="button-primary"/>
+
+            <Button fx:id="networkTestButton" text="Diagnostic réseau" onAction="#runNetworkDiagnostics" styleClass="button-warning"/>
+        </HBox>
+
+    </VBox>
+</AnchorPane>

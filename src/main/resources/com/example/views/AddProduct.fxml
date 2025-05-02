@@ -16,7 +16,12 @@
         <Label text="Ajouter un Produit" styleClass="title" />
 
         <TextField fx:id="nomField" promptText="Nom du produit" styleClass="text-field" />
-        <TextField fx:id="descriptionField" promptText="Description" styleClass="text-field" />
+
+        <HBox spacing="10">
+            <TextField fx:id="descriptionField" promptText="Description" styleClass="text-field"/>
+            <Button text="Générer" onAction="#generateDescriptionFromNom" styleClass="button-secondary"/>
+        </HBox>
+
         <TextField fx:id="couponField" promptText="Coupon" styleClass="text-field" />
         <TextField fx:id="valeurField" promptText="Valeur" styleClass="text-field" />
         <TextField fx:id="etatField" promptText="État" styleClass="text-field" />

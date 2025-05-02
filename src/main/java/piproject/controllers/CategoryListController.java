@@ -26,7 +26,7 @@ public class CategoryListController {
     private final CategoryService categoryService = new CategoryService();
 
     public void initialize() {
-        idCol.setCellValueFactory(new PropertyValueFactory<>("category_id"));
+        
         nameCol.setCellValueFactory(new PropertyValueFactory<>("category_name"));
         descCol.setCellValueFactory(new PropertyValueFactory<>("category_description"));
 

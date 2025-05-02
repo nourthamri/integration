@@ -13,17 +13,40 @@
 
     <VBox spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20"
           styleClass="container">
-        <Label text="Liste des Produits" styleClass="title" />
 
-        <ListView fx:id="productListView" prefHeight="450" styleClass="list-view" />
+        <!-- Top section with title and cart buttons -->
+        <HBox spacing="15" alignment="CENTER_RIGHT">
+            <Label text="Liste des Produits" styleClass="title" HBox.hgrow="ALWAYS" />
+            <Button fx:id="addToCartButton" text="🛒 Ajouter au panier" onAction="#onAddToCart" styleClass="button-info"/>
+            <Button fx:id="openCartButton" text="📦 Voir le panier" onAction="#onOpenCart" styleClass="button-primary"/>
 
+        </HBox>
+
+        <!-- Search Field -->
+        <TextField fx:id="searchField"
+                   promptText="Rechercher des produits..."
+                   styleClass="search-field">
+            <padding>
+                <Insets top="5" right="5" bottom="5" left="5"/>
+            </padding>
+        </TextField>
+
+        <!-- Product List -->
+        <ListView fx:id="productListView"
+                  prefHeight="400"
+                  maxHeight="400"
+                  VBox.vgrow="ALWAYS"
+                  styleClass="list-view" />
+
+        <!-- Bottom action buttons -->
         <HBox spacing="15">
             <Button fx:id="addButton" text="➕ Ajouter" onAction="#onAddProduct" styleClass="button-success" />
-            <Button fx:id="deleteButton" text="🗑️ Supprimer" onAction="#onDeleteProduct" styleClass="button-error" />
-            <Button fx:id="modifyButton" text="✏️ Modifier" onAction="#onModifyProduct" styleClass="button-secondary" />
-            <!-- New button to navigate to CategoryList -->
-            <Button fx:id="categoryListButton" text="📋 Liste des Catégories" onAction="#onCategoryList" styleClass="button-primary" />
+            <Button fx:id="detailsButton" text="ℹ️ Détails" onAction="#onProductDetails" styleClass="button-info" />
+            <Button fx:id="categoryListButton" text="📋 Catégories" onAction="#onCategoryList" styleClass="button-primary" />
+            <Button fx:id="addProductBackButton" text="🔙 Admin" onAction="#onAddProductBack" styleClass="button-warning"/>
         </HBox>
+
+
     </VBox>
 
 </AnchorPane>

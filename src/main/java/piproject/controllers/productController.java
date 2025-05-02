@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -217,6 +218,7 @@ public class productController implements Initializable {
         selectedImageFile = null;
     }
 
+    @FXML
     private void loadProductsToListView() {
         List<Product> products = productService.getAll();
         ObservableList<String> productStrings = FXCollections.observableArrayList();
@@ -280,4 +282,19 @@ public class productController implements Initializable {
         loadProductsToListView();
         editingProductId = -1;
     }
+    @FXML
+    private void onBackToProductList(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/views/ProductList.fxml"));
+            javafx.scene.Parent root = loader.load();
+
+            javafx.stage.Stage stage = (javafx.stage.Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new javafx.scene.Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            statusLabel.setText("❌ Erreur lors du retour à la liste des produits: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 }

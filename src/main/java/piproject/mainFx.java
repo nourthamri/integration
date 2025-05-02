@@ -7,12 +7,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class mainFx extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/views/addProductback.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/views/ProductList.fxml")));
         Scene scene = new Scene(root);
         primaryStage.setTitle("Product Management App");
         primaryStage.setScene(scene);

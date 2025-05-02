@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import piproject.models.Product;
@@ -49,11 +48,30 @@ public class ModifyProductController {
         // Load categories into combo box
         CategoryService categoryService = new CategoryService();
         categorieCombo.getItems().addAll(categoryService.getAll());
+        categorieCombo.setConverter(new javafx.util.StringConverter<>() {
+            @Override
+            public String toString(Category category) {
+                return category != null ? category.getCategory_name() : "";
+            }
+
+            @Override
+            public Category fromString(String string) {
+                for (Category c : categorieCombo.getItems()) {
+                    if (c.getCategory_name().equals(string)) {
+                        return c;
+                    }
+                }
+                return null;
+            }
+        });
 
         // Optional: prevent saving before data is set
         if (selectedProduct == null) {
             statusLabel.setText("Aucun produit sélectionné.");
         }
+
+        // Setup input validation
+        setupInputFilters();
     }
 
     private void fillFormWithProduct(Product product) {
@@ -64,6 +82,41 @@ public class ModifyProductController {
         etatField.setText(product.getEtat());
         dispoField.setText(product.getDispo());
         categorieCombo.setValue(product.getCategorie());
+    }
+
+    private void setupInputFilters() {
+        addLetterOnlyFilter(nomField); // Only letters for product name
+        addDescriptionFilter(descriptionField); // Allowed letters and spaces for description
+        addNumericFilter(couponField); // Only numbers for the coupon
+        addNumericFilter(valeurField); // Only numbers for the value
+        addLetterOnlyFilter(etatField); // Only letters for state
+        addLetterOnlyFilter(dispoField); // Only letters for availability
+    }
+
+    private void addLetterOnlyFilter(TextField field) {
+        field.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal.matches("[a-zA-Z]*")) {
+                field.setText(oldVal);
+            }
+        });
+    }
+
+    private void addDescriptionFilter(TextField field) {
+        field.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal.matches("[a-zA-Z ]*")) {
+                field.setText(oldVal); // Allow letters and spaces only
+            } else if (newVal.length() > 30) { // Limit to 30 characters
+                field.setText(newVal.substring(0, 30));
+            }
+        });
+    }
+
+    private void addNumericFilter(TextField field) {
+        field.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal.matches("\\d*")) { // Allow only digits
+                field.setText(oldVal);
+            }
+        });
     }
 
     @FXML
@@ -87,13 +140,18 @@ public class ModifyProductController {
             return;
         }
 
+        // Validate inputs
         try {
-            selectedProduct.setNom(nomField.getText());
-            selectedProduct.setDescription(descriptionField.getText());
-            selectedProduct.setCoupon(Integer.parseInt(couponField.getText()));
-            selectedProduct.setValeur(Float.parseFloat(valeurField.getText()));
-            selectedProduct.setEtat(etatField.getText());
-            selectedProduct.setDispo(dispoField.getText());
+            if (!isValidInputs()) {
+                return; // Invalid inputs; exit the method
+            }
+
+            selectedProduct.setNom(nomField.getText().trim());
+            selectedProduct.setDescription(descriptionField.getText().trim());
+            selectedProduct.setCoupon(Integer.parseInt(couponField.getText().trim()));
+            selectedProduct.setValeur(Float.parseFloat(valeurField.getText().trim()));
+            selectedProduct.setEtat(etatField.getText().trim());
+            selectedProduct.setDispo(dispoField.getText().trim());
             selectedProduct.setCategorie(categorieCombo.getValue());
             selectedProduct.setImage(selectedImagePath);
 
@@ -103,6 +161,39 @@ public class ModifyProductController {
             statusLabel.setText("❌ Erreur : " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private boolean isValidInputs() {
+        // Product name validation
+        if (nomField.getText().trim().isEmpty()) {
+            statusLabel.setText("Le nom du produit ne peut pas être vide.");
+            return false;
+        }
+        // Description validation
+        if (descriptionField.getText().trim().isEmpty() || descriptionField.getText().length() > 30) {
+            statusLabel.setText("La description doit contenir entre 1 et 30 caractères.");
+            return false;
+        }
+        // Coupon validation
+        try {
+            Integer.parseInt(couponField.getText().trim());
+        } catch (NumberFormatException e) {
+            statusLabel.setText("Le coupon doit être un entier valide.");
+            return false;
+        }
+        // Valeur validation
+        try {
+            Float.parseFloat(valeurField.getText().trim());
+        } catch (NumberFormatException e) {
+            statusLabel.setText("La valeur doit être un nombre valide.");
+            return false;
+        }
+        // State and availability validation
+        if (etatField.getText().trim().isEmpty() || dispoField.getText().trim().isEmpty()) {
+            statusLabel.setText("L'état et la disponibilité ne peuvent pas être vides.");
+            return false;
+        }
+        return true; // All inputs are valid
     }
 
     @FXML

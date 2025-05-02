@@ -19,7 +19,38 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="piproject.controllers.productController"
             stylesheets="@style.css"> <!-- 👈 Add this line -->
+    <left>
+        <VBox prefHeight="731.0" prefWidth="240.0" styleClass="sidebar">
+            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
 
+            </ImageView>
+            <Label text="Dashboard" styleClass="sidebar-title"/>
+
+            <Button mnemonicParsing="false" onAction="#loadProductsToListView" styleClass="sidebar-button" text="Produits">
+                <graphic>
+                    <ImageView fitHeight="24.0" fitWidth="24.0">
+
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <Button mnemonicParsing="false" onAction="#loadProductsToListView" styleClass="sidebar-button" text="Categories">
+                <graphic>
+                    <ImageView fitHeight="24.0" fitWidth="24.0">
+
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <Button mnemonicParsing="false" onAction="#loadProductsToListView" styleClass="sidebar-button" text="Statistiques">
+                <graphic>
+                    <ImageView fitHeight="24.0" fitWidth="24.0">
+
+                    </ImageView>
+                </graphic>
+            </Button>
+        </VBox>
+    </left>
     <center>
         <VBox spacing="15" style="-fx-background-color: #f5f6fa;">
             <padding><Insets bottom="20.0" left="20.0" right="20.0" top="10.0" /></padding>
@@ -101,6 +132,8 @@
                         prefWidth="90"
                         style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"
                         text="Modifier" />
+                <Button fx:id="backButton" onAction="#onBackToProductList" text="⬅ Retour à la liste" />
+
             </HBox>
         </VBox>
     </center>
