@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.forum.PostDetailController"
+      spacing="15"
+      styleClass="root"
+      stylesheets="@../css/modern-styles.css"
+>
+
+    <!-- Boutons pour le post -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Traduire" onAction="#handleTranslatePost"
+                styleClass="button button-warning"/>
+        <Button text="Modifier Post" onAction="#handleUpdatePost"
+                styleClass="button button-primary"/>
+        <Button text="Supprimer Post" onAction="#handleDeletePost"
+                styleClass="button button-error"/>
+    </HBox>
+
+    <Label fx:id="postTitle" styleClass="post-title"/>
+    <Label fx:id="postContent" wrapText="true" maxWidth="400" styleClass="post-content"/>
+    <Label fx:id="postDate" styleClass="post-date"/>
+
+    <Separator styleClass="separator"/>
+
+    <Label text="Commentaires:" styleClass="section-title"/>
+
+    <ListView fx:id="commentsList" prefHeight="200" styleClass="comment-list">
+        <placeholder>
+            <Label text="Aucun commentaire pour ce post" styleClass="placeholder-text"/>
+        </placeholder>
+    </ListView>
+
+    <GridPane hgap="10" vgap="10" styleClass="comment-form">
+        <Label text="Nouveau commentaire:" GridPane.columnIndex="0" GridPane.rowIndex="0"
+               styleClass="form-label"/>
+        <TextArea fx:id="commentField" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                  wrapText="true" prefRowCount="3" styleClass="form-textarea"/>
+
+        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button text="Ajouter" onAction="#handleAddComment"
+                    styleClass="button button-success"/>
+            <Button text="Modifier" onAction="#handleUpdateComment"
+                    styleClass="button button-primary"/>
+            <Button text="Supprimer" onAction="#handleDeleteComment"
+                    styleClass="button button-error"/>
+        </HBox>
+    </GridPane>
+</VBox>

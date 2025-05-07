@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.forum.ModifierPostController"
+      stylesheets="@../css/modern-styles.css"
+
+      spacing="10"
+      styleClass="root">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- En-tête -->
+    <HBox alignment="CENTER" styleClass="header-container">
+        <Label text="Modifier Post" styleClass="header-title"/>
+    </HBox>
+
+    <!-- Formulaire pour la modification du post -->
+    <GridPane hgap="10" vgap="10" styleClass="form-container">
+        <Label text="Titre:" GridPane.columnIndex="0" GridPane.rowIndex="0"
+               styleClass="form-label"/>
+        <TextField fx:id="titreField" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                   styleClass="form-field"/>
+
+        <Label text="Contenu:" GridPane.columnIndex="0" GridPane.rowIndex="1"
+               styleClass="form-label"/>
+        <TextArea fx:id="contenuField" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                  prefRowCount="5" wrapText="true"
+                  styleClass="form-textarea"/>
+    </GridPane>
+
+    <!-- Boutons d'action -->
+    <HBox spacing="20" alignment="CENTER_RIGHT" styleClass="button-container">
+        <Button text="Annuler" onAction="#handleCancel"
+                styleClass="cancel-button"/>
+        <Button text="Mettre à jour" onAction="#handleUpdate"
+                styleClass="save-button"
+                defaultButton="true"/>
+    </HBox>
+</VBox>

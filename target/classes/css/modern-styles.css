@@ -458,3 +458,21 @@
     -fx-background-color: #c0392b;
     -fx-cursor: hand;
 }
+/* styles.css */
+.user-message {
+    -fx-background-color: #DCF8C6;
+    -fx-background-radius: 10;
+    -fx-padding: 8;
+    -fx-font-size: 14;
+}
+
+.bot-message {
+    -fx-background-color: #E8E8E8;
+    -fx-background-radius: 10;
+    -fx-padding: 8;
+    -fx-font-size: 14;
+}
+
+#chatContainer {
+    -fx-spacing: 10;
+}

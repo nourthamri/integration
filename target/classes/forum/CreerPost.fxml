@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.forum.CreerPost"
+      stylesheets="@../css/modern-styles.css"
+      spacing="10"
+      styleClass="root">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- En-tête -->
+    <HBox alignment="CENTER" styleClass="container" style="-fx-padding: 15; -fx-background-color: -fx-primary-light;">
+        <Label text="Nouveau Post" styleClass="title"/>
+    </HBox>
+
+    <!-- Formulaire de création de post -->
+    <GridPane hgap="10" vgap="10" styleClass="container" style="-fx-padding: 20;">
+        <Label text="Titre:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="subtitle"/>
+        <TextField fx:id="titreField" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="text-field"/>
+
+        <Label text="Contenu:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="subtitle"/>
+        <TextArea fx:id="contenuField" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                  prefRowCount="5" wrapText="true" styleClass="text-area"/>
+    </GridPane>
+
+    <!-- Boutons d'action -->
+    <HBox spacing="20" alignment="CENTER_RIGHT" style="-fx-padding: 10;">
+        <Button text="Annuler" onAction="#handleCancel" styleClass="button button-secondary"/>
+        <Button text="Créer" onAction="#handleCreate" defaultButton="true" styleClass="button button-success"/>
+    </HBox>
+</VBox>

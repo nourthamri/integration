@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.forum.StatsViewController" spacing="20"
+      styleClass="root container"
+      stylesheets="@style.css">
+
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <Label text="Statistiques des Posts" styleClass="title"/>
+
+    <HBox styleClass="container">
+        <VBox spacing="10">
+            <Label text="Date la plus active:" styleClass="subtitle"/>
+            <HBox spacing="10">
+                <Label text="Date:" styleClass="stat-label"/>
+                <Label fx:id="topDateLabel" styleClass="stat-value"/>
+            </HBox>
+            <HBox spacing="10">
+                <Label text="Nombre de posts:" styleClass="stat-label"/>
+                <Label fx:id="postCountLabel" styleClass="stat-value"/>
+            </HBox>
+        </VBox>
+    </HBox>
+
+    <BarChart fx:id="postsChart" title="Posts par date" styleClass="chart">
+        <xAxis><CategoryAxis label="Date"/></xAxis>
+        <yAxis><NumberAxis label="Nombre de posts"/></yAxis>
+    </BarChart>
+</VBox>

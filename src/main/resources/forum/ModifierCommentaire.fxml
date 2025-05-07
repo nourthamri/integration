@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.forum.ModifierCommentaireController"
+      stylesheets="@../css/modern-styles.css"
+
+      spacing="10"
+      styleClass="root">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- En-tête - Identique mais avec classe CSS -->
+    <HBox alignment="CENTER" styleClass="header-box">
+        <Label text="Modifier Commentaire" styleClass="header-title"/>
+    </HBox>
+
+    <!-- Formulaire - Structure identique avec classes CSS -->
+    <GridPane hgap="10" vgap="10" styleClass="form-container">
+        <Label text="Contenu:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="contentField" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    </GridPane>
+
+    <!-- Boutons - Identiques avec classes CSS -->
+    <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="button-container">
+        <Button text="Annuler" onAction="#closeWindow" styleClass="cancel-button"/>
+        <Button text="Mettre à jour" onAction="#handleUpdate" defaultButton="true" styleClass="save-button"/>
+    </HBox>
+</VBox>

@@ -18,7 +18,7 @@ public class AccueilFront {
 
     @FXML
     private void allerVersCreation() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/createrecfront.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/reclamation/createrec.fxml"));
         Stage stage = (Stage) btnCreer.getScene().getWindow();
         stage.setScene(new Scene(loader.load()));
     }

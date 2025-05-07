@@ -153,9 +153,7 @@ public class Createrec implements Initializable {
 
         reclamation r = new reclamation(userId, t, d, statut, ld);
         r.setCategorieId(categorieId);
-        r.setEmailUtilisateur(email); // 👈 Définir l'email
-
-
+        r.setEmailUtilisateur(email); //email
         reclamationC rc = new reclamationC();
         rc.create(r);
 

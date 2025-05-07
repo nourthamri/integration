@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.forum.SupprimerPostController"
+      stylesheets="@../css/modern-styles.css"
+
+      spacing="20"
+      alignment="CENTER"
+      styleClass="root container">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label fx:id="confirmationLabel" text="Confirmer la suppression" styleClass="title"/>
+
+    <HBox spacing="20" alignment="CENTER">
+        <Button text="Annuler" onAction="#handleCancel" styleClass="button button-secondary"/>
+        <Button text="Confirmer" onAction="#handleConfirm" styleClass="button button-error"/>
+    </HBox>
+</VBox>

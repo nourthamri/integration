@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.forum.AfficherPostController"
+            stylesheets="@../css/modern-styles.css"
+            styleClass="root">
+
+    <!-- Sidebar gauche -->
+    <left>
+        <fx:include source="/sidebar.fxml"/>
+    </left>
+<!--    <left>-->
+<!--        <VBox styleClass="sidebar" spacing="20" prefWidth="200">-->
+<!--            <Label text="Exchangi" styleClass="sidebar-title"/>-->
+
+<!--&lt;!&ndash;            <VBox styleClass="sidebar-menu" spacing="10">&ndash;&gt;-->
+<!--&lt;!&ndash;                <Button text="Profil" styleClass="sidebar-button"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <Button text="Produits" styleClass="sidebar-button"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <Button text="Évènements" styleClass="sidebar-button"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <Button text="Annonces" styleClass="sidebar-button"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <Button text="Réclamations" styleClass="sidebar-button"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <Button text="Forum" styleClass="sidebar-button active"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            </VBox>&ndash;&gt;-->
+<!--        </VBox>-->
+<!--    </left>-->
+
+    <!-- Contenu principal -->
+    <center>
+        <VBox spacing="15">
+            <!-- En-tête -->
+            <VBox styleClass="header-container">
+                <Label text="Posts" styleClass="title"/>
+
+                <HBox styleClass="toolbar" spacing="15" alignment="CENTER_LEFT">
+                    <TextField fx:id="searchField" promptText="Rechercher par titre..." styleClass="text-field"/>
+                    <DatePicker fx:id="dateFilter" styleClass="date-picker"/>
+                    <ComboBox fx:id="sortComboBox" styleClass="combo-box"/>
+                    <Button text="Réinitialiser" onAction="#loadPosts" styleClass="button button-secondary"/>
+                </HBox>
+            </VBox>
+
+            <!-- Liste des posts -->
+            <ScrollPane styleClass="scroll-pane" fitToWidth="true">
+                <FlowPane fx:id="postsContainer" styleClass="posts-flow"
+                          hgap="20" vgap="20" prefWrapLength="1600"/>
+            </ScrollPane>
+
+            <!-- Boutons d'action -->
+            <HBox styleClass="action-bar" spacing="20" alignment="CENTER">
+                <Button text="Ajouter" onAction="#handleCreatePost" styleClass="button button-success"/>
+                <Button text="Statistiques" onAction="#handleShowStats" styleClass="button button-primary"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

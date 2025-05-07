@@ -1,0 +1,127 @@
+/* Palette de couleurs */
+.root {
+    -fx-primary: #2563eb;
+    -fx-primary-light: #3b82f6;
+    -fx-primary-dark: #1d4ed8;
+    -fx-secondary: #64748b;
+    -fx-success: #22c55e;
+    -fx-warning: #f59e0b;
+    -fx-error: #ef4444;
+    -fx-background: #f8fafc;
+    -fx-surface: #ffffff;
+    -fx-text-primary: #1e293b;
+    -fx-text-secondary: #64748b;
+    -fx-font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    -fx-background-color: -fx-primary-dark;
+    -fx-padding: 20px;
+}
+
+.sidebar-title {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 20px 0;
+}
+
+.sidebar-menu {
+    -fx-spacing: 10px;
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10px 15px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: -fx-primary;
+}
+
+.sidebar-button.active {
+    -fx-background-color: -fx-primary-light;
+    -fx-font-weight: bold;
+}
+
+/* Contenu principal */
+.header-container {
+    -fx-background-color: -fx-surface;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+.title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+.toolbar {
+    -fx-padding: 15px 0;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 15px;
+}
+
+.posts-flow {
+    -fx-padding: 10px;
+}
+
+.action-bar {
+    -fx-padding: 15px;
+    -fx-background-color: -fx-surface;
+}
+
+/* Composants */
+.text-field, .date-picker, .combo-box {
+    -fx-background-color: -fx-surface;
+    -fx-background-radius: 5px;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px 12px;
+    -fx-font-size: 14px;
+}
+
+.button {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: -fx-primary-light;
+}
+
+.button-primary {
+    -fx-background-color: -fx-primary;
+}
+
+.button-secondary {
+    -fx-background-color: -fx-secondary;
+}
+
+.button-success {
+    -fx-background-color: -fx-success;
+}
+
+/* Style des cartes de post (à adapter dans votre contrôleur) */
+.post-card {
+    -fx-background-color: -fx-surface;
+    -fx-background-radius: 8px;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 8px;
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 3, 0, 0, 1);
+}

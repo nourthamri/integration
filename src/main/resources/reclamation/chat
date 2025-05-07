@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+
+<VBox fx:id="chatContainer" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="10"
+      prefHeight="400"
+      prefWidth="600"
+      style="-fx-padding: 20;">
+
+    <!-- Zone des messages -->
+    <VBox fx:id="messageArea" style="-fx-background-color: #F5F5F5;" />
+
+    <!-- Champ de saisie et bouton -->
+    <TextField fx:id="userInput" promptText="Écrivez votre message..." />
+    <Button text="Envoyer" onAction="#sendMessage" />
+
+</VBox>

@@ -38,7 +38,7 @@ public class Sidebar {
 
     @FXML
     public void allerForum() throws IOException {
-        switchTo("/forum/listtopics.fxml");
+        switchTo("/forum/AfficherPost.fxml");
     }
 
     @FXML

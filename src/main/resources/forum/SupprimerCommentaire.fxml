@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox spacing="15" alignment="CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.forum.SupprimerCommentaireController"
+      stylesheets="@../css/modern-styles.css"
+
+      styleClass="root">
+    <Label fx:id="confirmationLabel" text="Êtes-vous sûr de vouloir supprimer ce commentaire ?" wrapText="true"/>
+    <HBox spacing="20" alignment="CENTER">
+        <Button fx:id="confirmerButton" text="Oui" onAction="#confirmerSuppression"/>
+        <Button fx:id="annulerButton" text="Non" onAction="#annulerSuppression"/>
+    </HBox>
+</VBox>
