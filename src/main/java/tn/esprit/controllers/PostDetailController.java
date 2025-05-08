@@ -2,19 +2,23 @@ package tn.esprit.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import tn.esprit.entities.Commentaire;
 import tn.esprit.entities.Post;
 import tn.esprit.services.CommentaireService;
 import tn.esprit.services.PostService;
+import tn.esprit.services.ReactionService;
 import tn.esprit.services.TranslationService;
 import tn.esprit.util.MaConnexion;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import java.util.Optional;
 
 public class PostDetailController {
@@ -23,19 +27,25 @@ public class PostDetailController {
     @FXML private Label postDate;
     @FXML private ListView<Commentaire> commentsList;
     @FXML private TextArea commentField;
+    @FXML private HBox reactionsContainer;
+    @FXML private Label reactionsSummaryLabel;
 
     private Post currentPost;
     private final PostService postService = new PostService();
     private final CommentaireService commentService = new CommentaireService();
+    private final ReactionService reactionService = new ReactionService();
     private final TranslationService translationService = new TranslationService();
     private AfficherPostController afficherPostController;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private final int currentUserId = 1; // User statique comme spécifié
+    private final String[] availableEmojis = {"👍", "👎", "❤️", "😂", "😮", "😢", "😠"};
 
     public void setPost(Post post) {
         this.currentPost = post;
         updatePostDisplay();
         loadComments();
         setupListView();
+        setupReactions();
     }
 
     public void setAfficherPostController(AfficherPostController controller) {
@@ -48,6 +58,54 @@ public class PostDetailController {
         postDate.setText("Posté le: " + currentPost.getCreatedAt().format(dateFormatter));
     }
 
+    private void setupReactions() {
+        reactionsContainer.getChildren().clear();
+
+        for (String emoji : availableEmojis) {
+            Button reactionBtn = new Button(emoji);
+            reactionBtn.getStyleClass().add("reaction-btn");
+            reactionBtn.setUserData(emoji);
+
+            reactionBtn.setOnAction(e -> handleReaction(emoji));
+            reactionsContainer.getChildren().add(reactionBtn);
+        }
+
+        updateReactionsSummary();
+    }
+
+    private void handleReaction(String emoji) {
+        if (reactionService.toggleReaction(currentUserId, currentPost.getId(), emoji)) {
+            updateReactionsSummary();
+        }
+    }
+
+    private void updateReactionsSummary() {
+        Map<String, Long> counts = reactionService.getReactionCountsForPost(currentPost.getId());
+
+        StringBuilder summary = new StringBuilder("Réactions: ");
+        counts.forEach((emoji, count) -> {
+            summary.append(emoji).append(": ").append(count).append(" ");
+        });
+
+        reactionsSummaryLabel.setText(summary.toString());
+
+        // Mettre en évidence la réaction de l'utilisateur courant
+        String userReaction = reactionService.getUserReaction(currentUserId, currentPost.getId());
+        for (Node node : reactionsContainer.getChildren()) {
+            if (node instanceof Button) {
+                Button btn = (Button) node;
+                String btnEmoji = (String) btn.getUserData();
+
+                if (btnEmoji.equals(userReaction)) {
+                    btn.getStyleClass().add("active-reaction");
+                } else {
+                    btn.getStyleClass().remove("active-reaction");
+                }
+            }
+        }
+    }
+
+    // ... [Le reste des méthodes existantes reste inchangé] ...
     @FXML
     private void handleTranslatePost() {
         if (currentPost != null) {

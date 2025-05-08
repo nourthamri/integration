@@ -125,3 +125,26 @@
     -fx-padding: 15px;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 3, 0, 0, 1);
 }
+/* Styles pour les réactions */
+.reaction-btn {
+    -fx-background-color: transparent;
+    -fx-border: none;
+    -fx-font-size: 16px;
+    -fx-padding: 5;
+    -fx-cursor: hand;
+}
+
+.reaction-btn:hover {
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+    -fx-translate-y: -5;
+}
+
+.active-reaction {
+    -fx-effect: dropshadow(gaussian, #4CAF50, 10, 0.5, 0, 0);
+}
+
+.reactions-summary {
+    -fx-font-size: 12px;
+    -fx-text-fill: #666;
+}

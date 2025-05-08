@@ -24,6 +24,10 @@
     <Label fx:id="postContent" wrapText="true" maxWidth="400" styleClass="post-content"/>
     <Label fx:id="postDate" styleClass="post-date"/>
 
+    <!-- Section Réactions -->
+    <HBox fx:id="reactionsContainer" spacing="5" alignment="CENTER_LEFT"/>
+    <Label fx:id="reactionsSummaryLabel" styleClass="reactions-summary"/>
+
     <Separator styleClass="separator"/>
 
     <Label text="Commentaires:" styleClass="section-title"/>

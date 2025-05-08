@@ -2,21 +2,24 @@ package tn.esprit.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import tn.esprit.entities.Post;
 import tn.esprit.services.PostService;
+import tn.esprit.services.ReactionService;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Map;
 
 public class AfficherPostController {
-
     @FXML private FlowPane postsContainer;
     @FXML private TextField searchField;
     @FXML private DatePicker dateFilter;
@@ -24,6 +27,7 @@ public class AfficherPostController {
 
     private Post selectedPost = null;
     private final PostService postService = new PostService();
+    private final ReactionService reactionService = new ReactionService();
 
     @FXML
     public void initialize() {
@@ -72,7 +76,15 @@ public class AfficherPostController {
 
         Label date = new Label("Créé le: " + post.getCreatedAt().toString());
 
-        card.getChildren().addAll(title, content, date);
+        // Ajout des réactions
+        HBox reactionsBox = new HBox(5);
+        Map<String, Long> reactionCounts = reactionService.getReactionCountsForPost(post.getId());
+        reactionCounts.forEach((emoji, count) -> {
+            Label reactionLabel = new Label(emoji + " " + count);
+            reactionsBox.getChildren().add(reactionLabel);
+        });
+
+        card.getChildren().addAll(title, content, date, reactionsBox);
 
         card.setOnMouseClicked(e -> {
             resetCardStyles();
@@ -102,6 +114,7 @@ public class AfficherPostController {
         }
     }
 
+    // ... [Le reste des méthodes existantes reste inchangé] ...
     @FXML
     private void handleCreatePost() {
         try {
@@ -149,6 +162,6 @@ public class AfficherPostController {
     }
 
     public void setPrimaryStage(Stage primaryStage) {
-
+        // À implémenter si nécessaire
     }
 }

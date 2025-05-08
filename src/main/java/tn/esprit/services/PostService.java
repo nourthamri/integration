@@ -224,4 +224,8 @@ public class PostService implements iService<Post> {
     public Iterable<Post> searchPosts(String keyword, LocalDate date) {
         return null;
     }
+
+    public boolean addReaction(int id, String type) {
+        return false;
+    }
 }
