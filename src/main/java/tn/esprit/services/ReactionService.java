@@ -9,35 +9,43 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ReactionService {
     private final Connection cnx = MaConnexion.getInstance().getCnx();
 
-    public boolean addOrUpdateReaction(Reaction reaction) {
-        Reaction existing = getReactionByUserAndPost(reaction.getUserId(), reaction.getPostId());
+    public boolean toggleReaction(int userId, int postId, String emoji) {
+        try {
+            // Vérifie si l'utilisateur a déjà réagi à ce post
+            Optional<Reaction> existing = getReactionByUserAndPost(userId, postId);
 
-        if (existing != null) {
-            if (existing.getEmoji().equals(reaction.getEmoji())) {
-                // Même emoji => suppression
-                return delete(existing.getId());
+            if (existing.isPresent()) {
+                Reaction reaction = existing.get();
+                if (reaction.getEmoji().equals(emoji)) {
+                    // Supprime la réaction si c'est le même emoji
+                    return delete(reaction.getId());
+                } else {
+                    // Met à jour l'emoji si différent
+                    reaction.setEmoji(emoji);
+                    return update(reaction);
+                }
             } else {
-                // Emoji différent => mise à jour
-                existing.setEmoji(reaction.getEmoji());
-                return update(existing);
+                // Crée une nouvelle réaction
+                Reaction newReaction = new Reaction(userId, postId, emoji);
+                return add(newReaction);
             }
-        } else {
-            // Nouvelle réaction
-            return add(reaction);
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la gestion de la réaction: " + e.getMessage());
+            return false;
         }
     }
 
-    public boolean add(Reaction reaction) {
-        String query = "INSERT INTO reaction (user_id, post_id, emoji, created_at) VALUES (?, ?, ?, ?)";
+    private boolean add(Reaction reaction) throws SQLException {
+        String query = "INSERT INTO reaction (user_id, post_id, emoji) VALUES (?, ?, ?)";
         try (PreparedStatement pst = cnx.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             pst.setInt(1, reaction.getUserId());
             pst.setInt(2, reaction.getPostId());
             pst.setString(3, reaction.getEmoji());
-            pst.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
 
             int affectedRows = pst.executeUpdate();
             if (affectedRows > 0) {
@@ -48,36 +56,28 @@ public class ReactionService {
                 }
                 return true;
             }
-        } catch (SQLException e) {
-            System.err.println("Erreur lors de l'ajout: " + e.getMessage());
         }
         return false;
     }
 
-    public boolean update(Reaction reaction) {
+    private boolean update(Reaction reaction) throws SQLException {
         String query = "UPDATE reaction SET emoji = ? WHERE id = ?";
         try (PreparedStatement pst = cnx.prepareStatement(query)) {
             pst.setString(1, reaction.getEmoji());
             pst.setInt(2, reaction.getId());
             return pst.executeUpdate() > 0;
-        } catch (SQLException e) {
-            System.err.println("Erreur lors de la mise à jour: " + e.getMessage());
         }
-        return false;
     }
 
-    public boolean delete(int id) {
+    private boolean delete(int id) throws SQLException {
         String query = "DELETE FROM reaction WHERE id = ?";
         try (PreparedStatement pst = cnx.prepareStatement(query)) {
             pst.setInt(1, id);
             return pst.executeUpdate() > 0;
-        } catch (SQLException e) {
-            System.err.println("Erreur lors de la suppression: " + e.getMessage());
         }
-        return false;
     }
 
-    public Reaction getReactionByUserAndPost(int userId, int postId) {
+    public Optional<Reaction> getReactionByUserAndPost(int userId, int postId) throws SQLException {
         String query = "SELECT * FROM reaction WHERE user_id = ? AND post_id = ?";
         try (PreparedStatement pst = cnx.prepareStatement(query)) {
             pst.setInt(1, userId);
@@ -90,18 +90,26 @@ public class ReactionService {
                     r.setUserId(rs.getInt("user_id"));
                     r.setPostId(rs.getInt("post_id"));
                     r.setEmoji(rs.getString("emoji"));
-                    r.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
-                    return r;
+
+                    // Gestion optionnelle de created_at si la colonne existe
+                    try {
+                        Timestamp timestamp = rs.getTimestamp("created_at");
+                        if (timestamp != null) {
+                            r.setCreatedAt(timestamp.toLocalDateTime());
+                        }
+                    } catch (SQLException e) {
+                        // La colonne created_at n'existe pas, on ignore
+                    }
+
+                    return Optional.of(r);
                 }
             }
-        } catch (SQLException e) {
-            System.err.println("Erreur lors de la récupération: " + e.getMessage());
         }
-        return null;
+        return Optional.empty();
     }
 
-    public Map<String, Long> getReactionCountsForPost(int postId) {
-        Map<String, Long> counts = new HashMap<>();
+    public Map<String, Integer> getReactionCountsForPost(int postId) {
+        Map<String, Integer> counts = new HashMap<>();
         String query = "SELECT emoji, COUNT(*) as count FROM reaction WHERE post_id = ? GROUP BY emoji";
 
         try (PreparedStatement pst = cnx.prepareStatement(query)) {
@@ -109,7 +117,7 @@ public class ReactionService {
 
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) {
-                    counts.put(rs.getString("emoji"), rs.getLong("count"));
+                    counts.put(rs.getString("emoji"), rs.getInt("count"));
                 }
             }
         } catch (SQLException e) {
@@ -121,7 +129,7 @@ public class ReactionService {
 
     public ObservableList<Reaction> getReactionsForPost(int postId) {
         ObservableList<Reaction> reactions = FXCollections.observableArrayList();
-        String query = "SELECT * FROM reaction WHERE post_id = ? ORDER BY created_at DESC";
+        String query = "SELECT * FROM reaction WHERE post_id = ? ORDER BY id DESC";
 
         try (PreparedStatement pst = cnx.prepareStatement(query)) {
             pst.setInt(1, postId);
@@ -133,22 +141,34 @@ public class ReactionService {
                     r.setUserId(rs.getInt("user_id"));
                     r.setPostId(rs.getInt("post_id"));
                     r.setEmoji(rs.getString("emoji"));
-                    r.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+
+                    // Gestion optionnelle de created_at
+                    try {
+                        Timestamp timestamp = rs.getTimestamp("created_at");
+                        if (timestamp != null) {
+                            r.setCreatedAt(timestamp.toLocalDateTime());
+                        }
+                    } catch (SQLException e) {
+                        // Colonne non présente, on ignore
+                    }
+
                     reactions.add(r);
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la récupération: " + e.getMessage());
+            System.err.println("Erreur lors de la récupération des réactions: " + e.getMessage());
         }
 
         return reactions;
     }
 
-    public boolean toggleReaction(int currentUserId, int id, String emoji) {
-        return false;
-    }
-
-    public String getUserReaction(int currentUserId, int id) {
-        return null;
+    public String getUserReaction(int userId, int postId) {
+        try {
+            Optional<Reaction> reaction = getReactionByUserAndPost(userId, postId);
+            return reaction.map(Reaction::getEmoji).orElse(null);
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération de la réaction utilisateur: " + e.getMessage());
+            return null;
+        }
     }
 }

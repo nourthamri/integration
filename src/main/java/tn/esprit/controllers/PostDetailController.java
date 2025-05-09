@@ -37,7 +37,7 @@ public class PostDetailController {
     private final TranslationService translationService = new TranslationService();
     private AfficherPostController afficherPostController;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    private final int currentUserId = 1; // User statique comme spécifié
+    private final int currentUserId = 1; // User statique
     private final String[] availableEmojis = {"👍", "👎", "❤️", "😂", "😮", "😢", "😠"};
 
     public void setPost(Post post) {
@@ -66,38 +66,49 @@ public class PostDetailController {
             reactionBtn.getStyleClass().add("reaction-btn");
             reactionBtn.setUserData(emoji);
 
-            reactionBtn.setOnAction(e -> handleReaction(emoji));
+            reactionBtn.setOnAction(e -> {
+                String selectedEmoji = (String) reactionBtn.getUserData();
+                handleReaction(selectedEmoji);
+            });
+
             reactionsContainer.getChildren().add(reactionBtn);
         }
 
-        updateReactionsSummary();
+        updateReactionsDisplay();
     }
 
     private void handleReaction(String emoji) {
-        if (reactionService.toggleReaction(currentUserId, currentPost.getId(), emoji)) {
-            updateReactionsSummary();
+        boolean success = reactionService.toggleReaction(currentUserId, currentPost.getId(), emoji);
+        if (success) {
+            updateReactionsDisplay();
+        } else {
+            showAlert("Erreur", "Échec de l'enregistrement de la réaction", Alert.AlertType.ERROR);
         }
     }
 
-    private void updateReactionsSummary() {
-        Map<String, Long> counts = reactionService.getReactionCountsForPost(currentPost.getId());
+    private void updateReactionsDisplay() {
+        Map<String, Integer> reactionCounts = reactionService.getReactionCountsForPost(currentPost.getId());
 
+        // Mise à jour du résumé des réactions
         StringBuilder summary = new StringBuilder("Réactions: ");
-        counts.forEach((emoji, count) -> {
-            summary.append(emoji).append(": ").append(count).append(" ");
+        reactionCounts.forEach((emoji, count) -> {
+            summary.append(emoji).append(" (").append(count).append(") ");
         });
 
-        reactionsSummaryLabel.setText(summary.toString());
+        reactionsSummaryLabel.setText(summary.toString().trim());
 
-        // Mettre en évidence la réaction de l'utilisateur courant
+        // Mise en évidence de la réaction de l'utilisateur
         String userReaction = reactionService.getUserReaction(currentUserId, currentPost.getId());
+
         for (Node node : reactionsContainer.getChildren()) {
             if (node instanceof Button) {
                 Button btn = (Button) node;
                 String btnEmoji = (String) btn.getUserData();
 
                 if (btnEmoji.equals(userReaction)) {
-                    btn.getStyleClass().add("active-reaction");
+                    if (!btn.getStyleClass().contains("active-reaction")) {
+                        btn.getStyleClass().add("active-reaction");
+                    }
                 } else {
                     btn.getStyleClass().remove("active-reaction");
                 }
@@ -105,7 +116,6 @@ public class PostDetailController {
         }
     }
 
-    // ... [Le reste des méthodes existantes reste inchangé] ...
     @FXML
     private void handleTranslatePost() {
         if (currentPost != null) {

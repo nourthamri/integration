@@ -2,6 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
 
 <VBox xmlns="http://javafx.com/javafx/8.0.171"
       xmlns:fx="http://javafx.com/fxml/1"
@@ -24,14 +25,21 @@
     <Label fx:id="postContent" wrapText="true" maxWidth="400" styleClass="post-content"/>
     <Label fx:id="postDate" styleClass="post-date"/>
 
-    <!-- Section Réactions -->
-    <HBox fx:id="reactionsContainer" spacing="5" alignment="CENTER_LEFT"/>
-    <Label fx:id="reactionsSummaryLabel" styleClass="reactions-summary"/>
+    <!-- Section Réactions - Version améliorée -->
+    <VBox spacing="5" styleClass="reactions-section">
+        <Label text="Réagir à ce post:" styleClass="subtitle"/>
+
+        <HBox fx:id="reactionsContainer" spacing="10" alignment="CENTER_LEFT" styleClass="reactions-container">
+            <!-- Les boutons seront ajoutés dynamiquement dans le contrôleur -->
+        </HBox>
+
+        <Label fx:id="reactionsSummaryLabel" styleClass="reactions-summary"/>
+    </VBox>
 
     <Separator styleClass="separator"/>
 
+    <!-- Section Commentaires -->
     <Label text="Commentaires:" styleClass="section-title"/>
-
     <ListView fx:id="commentsList" prefHeight="200" styleClass="comment-list">
         <placeholder>
             <Label text="Aucun commentaire pour ce post" styleClass="placeholder-text"/>

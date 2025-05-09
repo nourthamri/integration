@@ -76,15 +76,24 @@ public class AfficherPostController {
 
         Label date = new Label("Créé le: " + post.getCreatedAt().toString());
 
-        // Ajout des réactions
-        HBox reactionsBox = new HBox(5);
-        Map<String, Long> reactionCounts = reactionService.getReactionCountsForPost(post.getId());
-        reactionCounts.forEach((emoji, count) -> {
-            Label reactionLabel = new Label(emoji + " " + count);
-            reactionsBox.getChildren().add(reactionLabel);
-        });
+        // Section Réactions - Modifiée pour une meilleure intégration
+        VBox reactionsContainer = new VBox(5);
+        Label reactionsTitle = new Label("Réactions:");
+        reactionsTitle.setStyle("-fx-font-weight: bold; -fx-padding: 5 0 0 0;");
 
-        card.getChildren().addAll(title, content, date, reactionsBox);
+        HBox reactionsBox = new HBox(5);
+        Map<String, Integer> reactionCounts = reactionService.getReactionCountsForPost(post.getId());
+
+        if (!reactionCounts.isEmpty()) {
+            reactionCounts.forEach((emoji, count) -> {
+                Label reactionLabel = new Label(emoji + " " + count);
+                reactionLabel.setStyle("-fx-font-size: 14px;");
+                reactionsBox.getChildren().add(reactionLabel);
+            });
+            reactionsContainer.getChildren().addAll(reactionsTitle, reactionsBox);
+        }
+
+        card.getChildren().addAll(title, content, date, reactionsContainer);
 
         card.setOnMouseClicked(e -> {
             resetCardStyles();
@@ -114,7 +123,6 @@ public class AfficherPostController {
         }
     }
 
-    // ... [Le reste des méthodes existantes reste inchangé] ...
     @FXML
     private void handleCreatePost() {
         try {
