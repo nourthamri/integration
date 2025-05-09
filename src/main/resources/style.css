@@ -226,3 +226,8 @@
     -fx-font-weight: bold;
     /* ... autres propriétés ... */
 }
+.reply-indent {
+    -fx-padding: 0 0 0 20;
+    -fx-border-color: #ddd;
+    -fx-border-width: 0 0 0 2;
+}

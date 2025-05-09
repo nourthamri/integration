@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tn.esprit.entities.Commentaire;
 import tn.esprit.entities.Post;
@@ -37,7 +38,7 @@ public class PostDetailController {
     private final TranslationService translationService = new TranslationService();
     private AfficherPostController afficherPostController;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    private final int currentUserId = 1; // User statique
+    private final int currentUserId = 1;
     private final String[] availableEmojis = {"👍", "👎", "❤️", "😂", "😮", "😢", "😠"};
 
     public void setPost(Post post) {
@@ -89,7 +90,6 @@ public class PostDetailController {
     private void updateReactionsDisplay() {
         Map<String, Integer> reactionCounts = reactionService.getReactionCountsForPost(currentPost.getId());
 
-        // Mise à jour du résumé des réactions
         StringBuilder summary = new StringBuilder("Réactions: ");
         reactionCounts.forEach((emoji, count) -> {
             summary.append(emoji).append(" (").append(count).append(") ");
@@ -97,7 +97,6 @@ public class PostDetailController {
 
         reactionsSummaryLabel.setText(summary.toString().trim());
 
-        // Mise en évidence de la réaction de l'utilisateur
         String userReaction = reactionService.getUserReaction(currentUserId, currentPost.getId());
 
         for (Node node : reactionsContainer.getChildren()) {
@@ -188,15 +187,43 @@ public class PostDetailController {
 
     private void setupListView() {
         commentsList.setCellFactory(lv -> new ListCell<Commentaire>() {
+            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
             @Override
             protected void updateItem(Commentaire comment, boolean empty) {
                 super.updateItem(comment, empty);
                 if (empty || comment == null) {
-                    setText(null);
+                    setGraphic(null);
                 } else {
-                    setText(String.format("%s\nPosté le: %s",
-                            comment.getContent(),
-                            comment.getCreatedAt().format(dateFormatter)));
+                    VBox container = new VBox(5);
+
+                    // Commentaire principal
+                    HBox mainCommentBox = new HBox(10);
+                    Label contentLabel = new Label(comment.getContent());
+                    Label dateLabel = new Label(comment.getCreatedAt().format(formatter));
+                    dateLabel.setStyle("-fx-text-fill: #666; -fx-font-size: 11px;");
+
+                    Button replyButton = new Button("Répondre");
+                    replyButton.setStyle("-fx-font-size: 11px;");
+                    replyButton.setOnAction(e -> openReplyDialog(comment));
+
+                    mainCommentBox.getChildren().addAll(contentLabel, dateLabel, replyButton);
+
+                    // Réponses
+                    VBox repliesContainer = new VBox(5);
+                    repliesContainer.setStyle("-fx-padding: 0 0 0 20; -fx-border-color: #ddd; -fx-border-width: 0 0 0 2;");
+
+                    commentService.getReponsesParCommentaire(comment.getId()).forEach(reply -> {
+                        HBox replyBox = new HBox(10);
+                        Label replyContent = new Label("↳ " + reply.getContent());
+                        Label replyDate = new Label(reply.getCreatedAt().format(formatter));
+                        replyDate.setStyle("-fx-text-fill: #666; -fx-font-size: 11px;");
+                        replyBox.getChildren().addAll(replyContent, replyDate);
+                        repliesContainer.getChildren().add(replyBox);
+                    });
+
+                    container.getChildren().addAll(mainCommentBox, repliesContainer);
+                    setGraphic(container);
                 }
             }
         });
@@ -206,6 +233,25 @@ public class PostDetailController {
                 commentField.setText(newVal.getContent());
             }
         });
+    }
+
+    private void openReplyDialog(Commentaire comment) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/RepondreCommentaire.fxml"));
+            Parent root = loader.load();
+
+            RepondreCommentaireController controller = loader.getController();
+            controller.setCommentaireParent(comment);
+            controller.setRefreshCallback(this::loadComments);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Répondre au commentaire");
+            stage.show();
+        } catch (IOException e) {
+            showAlert("Erreur", "Impossible d'ouvrir la fenêtre de réponse", Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
     }
 
     @FXML
